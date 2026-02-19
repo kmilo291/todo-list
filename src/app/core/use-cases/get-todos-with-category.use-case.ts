@@ -1,7 +1,9 @@
 
+import { Injectable } from '@angular/core';
 import { CategoryRepository } from '../ports/category.repository';
 import { TodoRepository } from '../ports/todo.repository.ts';
 
+@Injectable({ providedIn: 'root' })
 export class GetTodosWithCategory {
 
   constructor(
