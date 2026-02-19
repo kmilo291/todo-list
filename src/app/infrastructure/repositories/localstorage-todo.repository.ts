@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Todo } from 'src/app/core/models/todo.model';
-import { TodoRepository } from 'src/app/core/ports/todo.repository.ts';
+import { TodoRepository } from 'src/app/core/ports/todo.repository';
 
 @Injectable()
 export class LocalStorageTodoRepository implements TodoRepository {

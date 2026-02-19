@@ -1,7 +1,14 @@
 import { GetCategories } from 'src/app/core/use-cases/get-categories.use-case';
 import { CreateCategory } from 'src/app/core/use-cases/create-category.use-case';
 import { Category } from 'src/app/core/models/category.model';
+import { Component } from '@angular/core';
 
+
+@Component({
+  selector: 'app-categories',
+  templateUrl: './categories.page.html',
+  standalone: false
+})
 export class CategoriesPage {
 
   categories: Category[] = [];

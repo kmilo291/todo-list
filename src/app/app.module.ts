@@ -6,7 +6,7 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { TodoRepository } from './core/ports/todo.repository.ts';
+import { TodoRepository } from './core/ports/todo.repository';
 import { LocalStorageTodoRepository } from './infrastructure/repositories/localstorage-todo.repository';
 import { CategoryRepository } from './core/ports/category.repository';
 import { LocalStorageCategoryRepository } from './infrastructure/repositories/localstorage-category.repository';
