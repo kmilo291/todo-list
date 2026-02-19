@@ -3,7 +3,7 @@ import { CategoryRepository } from 'src/app/core/ports/category.repository';
 import { Category } from 'src/app/core/models/category.model';
 
 @Component({
-  standalone: true,
+  standalone: false,
   selector: 'app-categories',
   templateUrl: './categories.page.html',
 })
