@@ -5,17 +5,13 @@ const routes: Routes = [
 
   {
     path: '',
-    redirectTo: 'todos',
+    redirectTo: 'tabs',
     pathMatch: 'full'
   },
   {
-    path: 'todos',
-    loadChildren: () => import('./presentation/pages/todos/todos.module').then( m => m.TodosPageModule)
-  },
-  {
-    path: 'categories',
-    loadChildren: () => import('./presentation/pages/categories/categories.module').then( m => m.CategoriesPageModule)
-  },
+    path: 'tabs',
+    loadChildren: () => import('./presentation/pages/tabs/tabs.module').then( m => m.TabsPageModule)
+  }
 ];
 
 @NgModule({

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TodoWithCategory } from 'src/app/core/models/projections/todo-with-category.model';
 import { GetTodosWithCategory } from 'src/app/core/use-cases/get-todos-with-category.use-case';
 import { CreateTodo } from 'src/app/core/use-cases/create-todo.use-case';
@@ -9,7 +9,7 @@ import { DeleteTodo } from 'src/app/core/use-cases/delete-todo.use-case';
   templateUrl: './todos.page.html',
   standalone: false
 })
-export class TodosPage {
+export class TodosPage implements OnInit{
 
   todos: TodoWithCategory[] = [];
 
@@ -18,6 +18,12 @@ export class TodosPage {
     private createTodo: CreateTodo,
     private deleteTodo: DeleteTodo
   ) {}
+
+
+  async ngOnInit() {
+         console.log('TODOS PAGE INIT');
+    await this.loadTodos();
+  }
 
   async ionViewWillEnter() {
     await this.loadTodos();
@@ -28,6 +34,7 @@ export class TodosPage {
   }
 
   async addTodo() {
+    console.log('click')
 
     const result = await this.createTodo.execute({
       title: 'Nuevo Todo',
@@ -53,4 +60,7 @@ export class TodosPage {
     await this.loadTodos();
   }
 
+  test() {
+  console.log('CLICK OK');
+}
 }

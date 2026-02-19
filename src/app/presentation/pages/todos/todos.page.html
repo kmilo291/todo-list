@@ -1,3 +1,5 @@
+<ion-button (click)="test()">TEST</ion-button>
+
 <ion-header>
   <ion-toolbar>
     <ion-title>Todos</ion-title>
@@ -27,8 +29,8 @@
         </p>
       </ion-label>
 
-      <ion-buttons slot="end" (click)="delete(todo.id)">
-        <ion-button fill="clear" slot="end" (click)="delete(todo.id)">
+      <ion-buttons slot="end">
+        <ion-button fill="clear" (click)="delete(todo.id)">
           <ion-icon name="trash" color="danger"></ion-icon>
         </ion-button>
       </ion-buttons>
