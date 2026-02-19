@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Result } from "../models/shared/result.model";
 import { TodoRepository } from "../ports/todo.repository";
-import { DeleteTodoDto } from "../models/dtos/delete-todo.dto copy";
+import { DeleteTodoDto } from "../models/dtos/delete-todo.dto";
 
 
 @Injectable({ providedIn: 'root' })
