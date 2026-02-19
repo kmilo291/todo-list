@@ -11,18 +11,24 @@ export class DeleteTodo {
 
   async execute(data: DeleteTodoDto): Promise<Result<void>> {
 
-      try {
-
-        await this.repo.delete(data.id);
-        return { success: true };
-
-      } catch (error) {
-        return {
-          success: false,
-          error: 'No se pudo eliminar el Todo'
-        };
-      }
+    if (!data.id || data.id <= 0) {
+      return {
+        success: false,
+        error: 'Id inválido'
+      };
     }
+
+    try {
+      await this.repo.delete(data.id);
+      return { success: true };
+    } catch {
+      return {
+        success: false,
+        error: 'No se pudo eliminar el Todo'
+      };
+    }
+  }
+
 
 
   }

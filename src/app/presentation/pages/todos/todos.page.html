@@ -1,21 +1,22 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>Todos</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="addTodo()">
+        <ion-icon name="add" ></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
-  <ion-button expand="block" (click)="addTodo()">
-    Agregar
-  </ion-button>
 
   <ion-list>
 
     <ion-item *ngFor="let todo of todos">
 
       <ion-label>
-        <h2>{{ todo.title }}</h2>
+        <h2>{{ todo.title }} {{todo.id}}</h2>
 
         <p *ngIf="todo.category">
           Categoría: {{ todo.category.name }}
@@ -27,7 +28,9 @@
       </ion-label>
 
       <ion-buttons slot="end" (click)="delete(todo.id)">
-        <ion-icon name="trash" color="danger"></ion-icon>
+        <ion-button fill="clear" slot="end" (click)="delete(todo.id)">
+          <ion-icon name="trash" color="danger"></ion-icon>
+        </ion-button>
       </ion-buttons>
 
     </ion-item>

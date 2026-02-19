@@ -43,7 +43,14 @@ export class TodosPage {
   }
 
   async delete(idTodo: number){
-    await this.deleteTodo.execute({id: idTodo})
+    const result = await this.deleteTodo.execute({ id: idTodo });
+
+    if (!result.success) {
+      console.error(result.error);
+      return;
+    }
+
+    await this.loadTodos();
   }
 
 }
