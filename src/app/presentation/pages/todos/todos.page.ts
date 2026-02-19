@@ -25,13 +25,19 @@ export class TodosPage {
     this.todos = await this.getTodosWithCategory.execute();
   }
 
-async addTodo() {
+  async addTodo() {
 
-  await this.createTodo.execute({
-    title: 'Nuevo Todo',
-    categoryId: 1
-  });
+    const result = await this.createTodo.execute({
+      title: 'Nuevo Todo',
+      categoryId: 1
+    });
 
-  await this.loadTodos();
-}
+    if (!result.success) {
+      console.error(result.error);
+      return;
+    }
+
+    await this.loadTodos();
+  }
+
 }

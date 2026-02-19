@@ -13,6 +13,8 @@ export class GetTodosWithCategory {
 
   async execute(): Promise<TodoWithCategory[]> {
 
+
+
     const [todos, categories] = await Promise.all([
       this.todoRepo.getAll(),
       this.categoryRepo.getAll()
