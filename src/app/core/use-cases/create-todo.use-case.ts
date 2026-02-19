@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { TodoRepository } from '../ports/todo.repository.ts';
+import { TodoRepository } from '../ports/todo.repository';
 import { Todo } from '../models/todo.model';
 import { CreateTodoDto } from '../models/create-todo.dto';
 
