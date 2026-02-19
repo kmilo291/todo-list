@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CategoryRepository } from 'src/app/core/ports/category.repository';
-import { Category } from 'src/app/core/models/entities/category.model';
+import { Category } from 'src/app/core/models/shared/category.model';
 
 @Injectable()
 export class LocalStorageCategoryRepository implements CategoryRepository {

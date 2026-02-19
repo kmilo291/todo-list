@@ -1,4 +1,4 @@
-import { Todo } from '../models/entities/todo.model';
+import { Todo } from '../models/shared/todo.model';
 
 export abstract class TodoRepository {
   abstract getAll(): Promise<Todo[]>;

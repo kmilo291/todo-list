@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { TodoRepository } from '../ports/todo.repository';
-import { Todo } from '../models/entities/todo.model';
+import { Todo } from '../models/shared/todo.model';
 import { CreateTodoDto } from '../models/dtos/create-todo.dto';
-import { Result } from '../models/entities/result.model';
+import { Result } from '../models/shared/result.model';
 
 
 @Injectable({ providedIn: 'root' })

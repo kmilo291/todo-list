@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { TodoWithCategory } from 'src/app/core/models/projections/todo-with-category.model';
 import { GetTodosWithCategory } from 'src/app/core/use-cases/get-todos-with-category.use-case';
 import { CreateTodo } from 'src/app/core/use-cases/create-todo.use-case';
+import { DeleteTodo } from 'src/app/core/use-cases/delete-todo.use-case';
 
 @Component({
   selector: 'app-todos',
@@ -14,7 +15,8 @@ export class TodosPage {
 
   constructor(
     private getTodosWithCategory: GetTodosWithCategory,
-    private createTodo: CreateTodo
+    private createTodo: CreateTodo,
+    private deleteTodo: DeleteTodo
   ) {}
 
   async ionViewWillEnter() {
@@ -38,6 +40,10 @@ export class TodosPage {
     }
 
     await this.loadTodos();
+  }
+
+  async delete(idTodo: number){
+    await this.deleteTodo.execute({id: idTodo})
   }
 
 }
