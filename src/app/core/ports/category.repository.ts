@@ -1,4 +1,4 @@
-import { Category } from '../models/category.model';
+import { Category } from '../models/entities/category.model';
 
 export abstract class CategoryRepository {
   abstract getAll(): Promise<Category[]>;

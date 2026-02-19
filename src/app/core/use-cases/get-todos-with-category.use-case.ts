@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CategoryRepository } from '../ports/category.repository';
-import { TodoWithCategory } from '../models/todo-with-category.model';
+import { TodoWithCategory } from '../models/projections/todo-with-category.model';
 import { TodoRepository } from '../ports/todo.repository';
 
 @Injectable({ providedIn: 'root' })

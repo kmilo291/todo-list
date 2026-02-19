@@ -1,11 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CategoryRepository } from '../ports/category.repository';
-import { Category } from '../models/category.model';
-
-export interface CreateCategoryDto {
-  name: string;
-  color: string;
-}
+import { Category } from '../models/entities/category.model';
+import { CreateCategoryDto } from '../models/dtos/create-category.dto';
 
 @Injectable({ providedIn: 'root' })
 export class CreateCategory {

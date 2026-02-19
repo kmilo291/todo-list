@@ -1,6 +1,6 @@
 import { GetCategories } from 'src/app/core/use-cases/get-categories.use-case';
 import { CreateCategory } from 'src/app/core/use-cases/create-category.use-case';
-import { Category } from 'src/app/core/models/category.model';
+import { Category } from 'src/app/core/models/entities/category.model';
 import { Component } from '@angular/core';
 
 

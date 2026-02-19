@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { TodoWithCategory } from 'src/app/core/models/todo-with-category.model';
+import { TodoWithCategory } from 'src/app/core/models/projections/todo-with-category.model';
 import { GetTodosWithCategory } from 'src/app/core/use-cases/get-todos-with-category.use-case';
-import { CreateTodo } from 'src/app/core/use-cases/create-todo.use-case'; // idealmente deberías tener este
+import { CreateTodo } from 'src/app/core/use-cases/create-todo.use-case';
 
 @Component({
   selector: 'app-todos',
@@ -29,7 +29,6 @@ async addTodo() {
 
   await this.createTodo.execute({
     title: 'Nuevo Todo',
-    completed: false,
     categoryId: 1
   });
 
