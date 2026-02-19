@@ -9,7 +9,7 @@ import { DeleteTodo } from 'src/app/core/use-cases/delete-todo.use-case';
   templateUrl: './todos.page.html',
   standalone: false
 })
-export class TodosPage implements OnInit{
+export class TodosPage {
 
   todos: TodoWithCategory[] = [];
 
@@ -20,10 +20,10 @@ export class TodosPage implements OnInit{
   ) {}
 
 
-  async ngOnInit() {
-         console.log('TODOS PAGE INIT');
-    await this.loadTodos();
-  }
+  // async ngOnInit() {
+  //        console.log('TODOS PAGE INIT');
+  //   await this.loadTodos();
+  // }
 
   async ionViewWillEnter() {
     await this.loadTodos();
