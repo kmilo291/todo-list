@@ -8,13 +8,18 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { TodoRepository } from './core/ports/todo.repository.ts';
 import { LocalStorageTodoRepository } from './infrastructure/repositories/localstorage-todo.repository';
+import { CategoryRepository } from './core/ports/category.repository';
+import { LocalStorageCategoryRepository } from './infrastructure/repositories/localstorage-category.repository';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    {provide: TodoRepository, useClass: LocalStorageTodoRepository}
+    {provide: TodoRepository, useClass: LocalStorageTodoRepository},
+    {provide: CategoryRepository, useClass: LocalStorageCategoryRepository
+}
+
   ],
   bootstrap: [AppComponent],
 })

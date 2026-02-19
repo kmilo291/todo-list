@@ -15,6 +15,10 @@ const routes: Routes = [
     path: 'todos',
     loadChildren: () => import('./presentation/pages/todos/todos.module').then( m => m.TodosPageModule)
   },
+  {
+    path: 'categories',
+    loadChildren: () => import('./presentation/pages/categories/categories.module').then( m => m.CategoriesPageModule)
+  },
 ];
 
 @NgModule({
