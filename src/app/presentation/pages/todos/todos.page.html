@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Todos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-button expand="block" (click)="addTodo()">
+    Agregar
+  </ion-button>
+
+  <ion-list>
+    <ion-item *ngFor="let todo of todos">
+      {{ todo.title }}
+    </ion-item>
+  </ion-list>
+
+</ion-content>

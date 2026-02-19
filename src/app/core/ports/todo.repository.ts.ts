@@ -1,0 +1,7 @@
+import { Todo } from '../models/todo.model';
+
+export abstract class TodoRepository {
+  abstract getAll(): Promise<Todo[]>;
+  abstract save(todo: Todo): Promise<void>;
+  abstract delete(id: number): Promise<void>;
+}
