@@ -60,7 +60,4 @@ export class TodosPage {
     await this.loadTodos();
   }
 
-  test() {
-  console.log('CLICK OK');
-}
 }
