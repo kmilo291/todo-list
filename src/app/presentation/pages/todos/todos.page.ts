@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { TodoWithCategory } from 'src/app/core/models/projections/todo-with-category.model';
 import { GetTodosWithCategory } from 'src/app/core/use-cases/get-todos-with-category.use-case';
+import { GetCategories } from 'src/app/core/use-cases/get-categories.use-case';
+import { Category } from 'src/app/core/models/shared/category.model';
 import { CreateTodo } from 'src/app/core/use-cases/create-todo.use-case';
 import { DeleteTodo } from 'src/app/core/use-cases/delete-todo.use-case';
+import { UpdateTodo } from 'src/app/core/use-cases/update-todo.use-case';
 
 @Component({
   selector: 'app-todos',
@@ -11,22 +14,26 @@ import { DeleteTodo } from 'src/app/core/use-cases/delete-todo.use-case';
 })
 export class TodosPage {
 
-  todos: TodoWithCategory[] = [];
+  todos: TodoWithCategory [] = [];
+  categories: Category    [] = [];
+  selectedCategoryId!: number;
 
   constructor(
     private getTodosWithCategory: GetTodosWithCategory,
     private createTodo: CreateTodo,
-    private deleteTodo: DeleteTodo
+    private deleteTodo: DeleteTodo,
+    private updateTodo: UpdateTodo,
+    private getCategories: GetCategories
   ) {}
-
-
-  // async ngOnInit() {
-  //        console.log('TODOS PAGE INIT');
-  //   await this.loadTodos();
-  // }
 
   async ionViewWillEnter() {
     await this.loadTodos();
+    await this.loadCategories();
+  }
+
+   async loadCategories() {
+    this.categories = await this.getCategories.execute();
+    console.log(this.categories)
   }
 
   async loadTodos() {
@@ -34,11 +41,15 @@ export class TodosPage {
   }
 
   async addTodo() {
-    console.log('click')
+
+    if (!this.selectedCategoryId) {
+      console.error('Debe seleccionar categoría');
+      return;
+    }
 
     const result = await this.createTodo.execute({
       title: 'Nuevo Todo',
-      categoryId: 1
+      categoryId: this.selectedCategoryId
     });
 
     if (!result.success) {
@@ -48,6 +59,7 @@ export class TodosPage {
 
     await this.loadTodos();
   }
+
 
   async delete(idTodo: number){
     const result = await this.deleteTodo.execute({ id: idTodo });
@@ -59,5 +71,24 @@ export class TodosPage {
 
     await this.loadTodos();
   }
+
+  async changeCategory(todo: TodoWithCategory, categoryId: number) {
+
+    const updatedTodo = {
+      ...todo,
+      categoryId
+    };
+
+    const result = await this.updateTodo.execute(updatedTodo);
+
+    if (!result.success) {
+      console.error(result.error);
+      return;
+    }
+
+    await this.loadTodos();
+  }
+
+
 
 }

@@ -27,6 +27,17 @@
         </p>
       </ion-label>
 
+      <ion-item>
+        <ion-label>Categoría</ion-label>
+        <ion-select (ionChange)="changeCategory(todo, $event.detail.value)">
+          <ion-select-option
+            *ngFor="let category of categories"
+            [value]="category.id">
+            {{ category.name }} {{category.id}}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
       <ion-button
         fill="clear"
         slot="end"

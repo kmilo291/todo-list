@@ -22,4 +22,13 @@ export class LocalStorageTodoRepository implements TodoRepository {
     const filtered = todos.filter(t => t.id !== id);
     localStorage.setItem(this.storageKey, JSON.stringify(filtered));
   }
+
+  async update(todo: Todo): Promise<void> {
+    const todos = await this.getAll();
+    const updated = todos.map(t =>
+      t.id === todo.id ? todo : t
+    );
+    localStorage.setItem(this.storageKey, JSON.stringify(updated));
+  }
+
 }
