@@ -1,38 +1,33 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Categories</ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="addCategory()">
-        <ion-icon name="add"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content>
+<ion-content class="categories">
 
   <ion-list>
 
-    <ion-item *ngFor="let category of categories">
+    <ion-item
+      *ngFor="let category of categories"
+      class="categories__item">
 
       <ion-label>
-        <h2>{{ category.name }} {{category.id}}</h2>
 
-        <!-- <p *ngIf="todo.category">
-          Categoría: {{ todo.category.name }}
-        </p> -->
+        <h2 class="categories__name">
+          <span
+            class="categories__color"
+            [style.background]="category.color">
+          </span>
 
-        <!-- <p>
-          Estado: {{ categorie.completed ? 'Completado' : 'Pendiente' }}
-        </p> -->
+          {{ category.name }}
+        </h2>
+
       </ion-label>
 
-      <ion-button
-        fill="clear"
-        slot="end"
-        (click)="delete(category.id)">
-        <ion-icon name="trash" color="danger"></ion-icon>
-      </ion-button>
+      <div class="categories__actions">
+
+        <ion-button
+          fill="clear"
+          (click)="delete(category.id)">
+          <ion-icon name="trash" color="danger"></ion-icon>
+        </ion-button>
+
+      </div>
 
     </ion-item>
 

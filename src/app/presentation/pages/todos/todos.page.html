@@ -1,49 +1,61 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Todos</ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="addTodo()">
-        <ion-icon name="add"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content>
+<ion-content class="todos">
 
   <ion-list>
 
-    <ion-item *ngFor="let todo of todos">
+    <ion-item
+      *ngFor="let todo of todos"
+      class="todos__item">
 
-      <ion-label>
-        <h2>{{ todo.title }} {{todo.id}}</h2>
+      <ion-label class="todos__content" >
 
-        <p *ngIf="todo.category">
-          Categoría: {{ todo.category.name }}
-        </p>
+        <div>
+          <h2 class="todos__title">
+            {{ todo.title }}
+          </h2>
 
-        <p>
-          Estado: {{ todo.completed ? 'Completado' : 'Pendiente' }}
-        </p>
+          <p *ngIf="todo.category" class="todos__category">
+            Categoría: {{ todo.category.name }}
+          </p>
+
+          <p
+            class="todos__status"
+            [ngClass]="{
+              'todos__status--completed': todo.completed,
+              'todos__status--pending': !todo.completed
+            }">
+            {{ todo.completed ? 'Completado' : 'Pendiente' }}
+          </p>
+        </div>
+
+        <div class="todos__select" >
+          <ion-select
+            interface="popover"
+            placeholder="Cambiar categoría"
+            [value]="todo.categoryId"
+            (ionChange)="changeCategory(todo, $event.detail.value)">
+
+            <ion-select-option
+              *ngFor="let category of categories"
+              [value]="category.id">
+
+              {{ category.name }}
+
+            </ion-select-option>
+
+          </ion-select>
+        </div>
+
       </ion-label>
 
-      <ion-item>
-        <ion-label>Categoría</ion-label>
-        <ion-select (ionChange)="changeCategory(todo, $event.detail.value)">
-          <ion-select-option
-            *ngFor="let category of categories"
-            [value]="category.id">
-            {{ category.name }} {{category.id}}
-          </ion-select-option>
-        </ion-select>
-      </ion-item>
+      <div class="todos__actions">
 
-      <ion-button
-        fill="clear"
-        slot="end"
-        (click)="delete(todo.id)">
-        <ion-icon name="trash" color="danger"></ion-icon>
-      </ion-button>
+        <ion-button
+          fill="clear"
+          (click)="delete(todo.id)">
+          <ion-icon name="trash" color="danger"></ion-icon>
+        </ion-button>
+
+      </div>
 
     </ion-item>
 

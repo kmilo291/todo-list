@@ -1,0 +1,29 @@
+.categories {
+
+  padding: 12px;
+
+  &__item {
+    --background: #ffffff;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  }
+
+  &__name {
+    font-weight: 600;
+    font-size: 15px;
+  }
+
+  &__color {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 8px;
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+  }
+}

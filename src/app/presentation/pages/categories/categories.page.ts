@@ -3,6 +3,7 @@ import { CreateCategory } from 'src/app/core/use-cases/create-category.use-case'
 import { Category } from 'src/app/core/models/shared/category.model';
 import { Component } from '@angular/core';
 import { DeleteCategory } from 'src/app/core/use-cases/delete-category.use-case';
+import { ToastService } from '../../services/toast.service';
 
 
 @Component({
@@ -17,7 +18,8 @@ export class CategoriesPage {
   constructor(
     private getCategories: GetCategories,
     private createCategory: CreateCategory,
-    private deleteCategory: DeleteCategory
+    private deleteCategory: DeleteCategory,
+    private toastSrv: ToastService
   ) {}
 
   async ionViewWillEnter() {
@@ -42,6 +44,7 @@ export class CategoriesPage {
 
     if (!result.success) {
       console.error(result.error);
+      this.toastSrv.error(result.error ?? "Error general");
       return;
     }
 

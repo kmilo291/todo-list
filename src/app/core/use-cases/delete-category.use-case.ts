@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { CategoryRepository } from '../ports/category.repository';
-import { Category } from '../models/shared/category.model';
 import { DeleteCategoryDto } from '../models/dtos/delete-category.dto';
 import { Result } from '../models/shared/result.model';
 
@@ -25,7 +24,7 @@ export class DeleteCategory {
     } catch {
       return {
         success: false,
-        error: 'No se pudo eliminar el Todo'
+        error: 'No se pudo eliminar la categoria'
       };
     }
   }

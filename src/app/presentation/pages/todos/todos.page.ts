@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { ToastService } from '../../services/toast.service';
 import { TodoWithCategory } from 'src/app/core/models/projections/todo-with-category.model';
 import { GetTodosWithCategory } from 'src/app/core/use-cases/get-todos-with-category.use-case';
 import { GetCategories } from 'src/app/core/use-cases/get-categories.use-case';
@@ -23,7 +24,8 @@ export class TodosPage {
     private createTodo: CreateTodo,
     private deleteTodo: DeleteTodo,
     private updateTodo: UpdateTodo,
-    private getCategories: GetCategories
+    private getCategories: GetCategories,
+    private toastSrv: ToastService
   ) {}
 
   async ionViewWillEnter() {
@@ -43,7 +45,9 @@ export class TodosPage {
   async addTodo() {
 
     if (!this.selectedCategoryId) {
+      this.toastSrv.warning("Debes seleccionar categoría");
       console.error('Debe seleccionar categoría');
+      this.toastSrv.error('Debe seleccionar categoría');
       return;
     }
 
@@ -54,6 +58,7 @@ export class TodosPage {
 
     if (!result.success) {
       console.error(result.error);
+      this.toastSrv.error(result.error ?? "Error general");
       return;
     }
 
@@ -66,6 +71,7 @@ export class TodosPage {
 
     if (!result.success) {
       console.error(result.error);
+      this.toastSrv.error(result.error ?? "Error general");
       return;
     }
 
@@ -83,6 +89,7 @@ export class TodosPage {
 
     if (!result.success) {
       console.error(result.error);
+      this.toastSrv.error(result.error ?? "Error general");
       return;
     }
 

@@ -1,0 +1,56 @@
+.todos {
+
+  padding: 12px;
+
+  &__item {
+    --background: #ffffff;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  &__title {
+    font-weight: 600;
+    font-size: 16px;
+    color: #2c3e50;
+  }
+
+  &__category {
+    font-size: 13px;
+    color: #7f8c8d;
+  }
+
+  &__status {
+    font-size: 12px;
+
+    &--completed {
+      color: #27ae60;
+      font-weight: 500;
+    }
+
+    &--pending {
+      color: #e67e22;
+      font-weight: 500;
+    }
+  }
+
+  &__select {
+    margin-top: 6px;
+
+    ion-select {
+      --padding-start: 0;
+      font-size: 13px;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+  }
+}
