@@ -1,0 +1,4 @@
+[
+  { "id": 1, "title": "Aprender Clean Architecture", "completed": false, "categoryId": 1 },
+  { "id": 2, "title": "Ir al gimnasio", "completed": true, "categoryId": 2 }
+]
