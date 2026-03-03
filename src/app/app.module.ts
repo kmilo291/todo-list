@@ -20,11 +20,17 @@ import { WorkerHeavyTaskAdapter } from './infrastructure/background/worker-heavy
             AppRoutingModule,HttpClientModule],
   providers: [
     {provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    // {provide: TodoRepository, useClass: LocalStorageTodoRepository},
-    // {provide: CategoryRepository, useClass: LocalStorageCategoryRepository},
-    // Nuevos proveedores para obtener la información
-    { provide: TodoRepository, useClass: JsonTodoRepository },
-    { provide: CategoryRepository, useClass: JsonCategoryRepository },
+
+    {provide: TodoRepository, useClass: LocalStorageTodoRepository},
+    {provide: CategoryRepository, useClass: LocalStorageCategoryRepository},
+
+    // proveedor para obtener la información desde JSON file - Todo
+    // { provide: TodoRepository, useClass: JsonTodoRepository },
+
+    // proveedor para obtener la información desde JSON file - Categoria
+    // { provide: CategoryRepository, useClass: JsonCategoryRepository },
+
+    // Proveedor para usar worker con tareas pesadas
     { provide: HeavyTaskPort, useClass: WorkerHeavyTaskAdapter },
   ],
 

@@ -8,7 +8,11 @@ addEventListener('message', ({ data }) => {
 
   for (let i = 1; i <= n; i++) {
     result += Math.sqrt(i);
+
+    if (i % 1_000_000 === 0) {
+      postMessage({ progress: i / n });
+    }
   }
 
-  postMessage(result);
+  postMessage({ done: true, result });
 });

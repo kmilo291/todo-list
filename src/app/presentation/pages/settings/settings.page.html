@@ -4,11 +4,22 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">settings</ion-title>
-      <ion-button (click)="startHeavyTask()" size="small">Run Worker</ion-button>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+
+  <ion-button size="small" (click)="startHeavyTask()" [disabled]="running">
+    Run Worker
+  </ion-button>
+
+  <div *ngIf="running" style="padding:16px">
+
+    <ion-progress-bar
+      [value]="progress">
+    </ion-progress-bar>
+
+    <p>
+      {{ (progress * 100) | number:'1.0-0' }} %
+    </p>
+
+  </div>
+
 </ion-content>

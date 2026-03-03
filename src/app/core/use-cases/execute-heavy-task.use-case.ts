@@ -7,7 +7,11 @@ export class ExecuteHeavyTask {
 
   constructor(private heavyTask: HeavyTaskPort) {}
 
-  async execute(n: number): Promise<number> {
-    return this.heavyTask.calculateSqrt(n);
+  async execute(
+    n: number,
+    onProgress?: (value: number) => void
+  ): Promise<number> {
+
+    return this.heavyTask.calculateSqrt(n, onProgress);
   }
 }
