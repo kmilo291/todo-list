@@ -9,8 +9,8 @@ import { LocalStorageTodoRepository } from './infrastructure/repositories/locals
 import { CategoryRepository } from './core/ports/category.repository';
 import { LocalStorageCategoryRepository } from './infrastructure/repositories/localstorage-category.repository';
 import { HttpClientModule } from '@angular/common/http';
-import { JsonTodoRepository } from './core/ports/json-todo.repostirory';
-import { JsonCategoryRepository } from './core/ports/json-category.repository';
+import { JsonTodoRepository } from './infrastructure/repositories/json-todo.repository';
+import { JsonCategoryRepository } from './infrastructure/repositories/json-category.repository';
 
 @NgModule({
   declarations: [AppComponent],

@@ -44,12 +44,11 @@ export class TodosPage {
 
   async addTodo() {
 
-    if (!this.selectedCategoryId) {
-      this.toastSrv.warning("Debes seleccionar categoría");
-      console.error('Debe seleccionar categoría');
-      this.toastSrv.error('Debe seleccionar categoría');
-      return;
-    }
+    // if (this.selectedCategoryId == null) {
+    //   this.toastSrv.warning("Debes seleccionar una categoría");
+    //   console.error('Debes seleccionar categoría');
+    //   return;
+    // }
 
     const result = await this.createTodo.execute({
       title: 'Nuevo Todo',

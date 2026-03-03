@@ -6,6 +6,7 @@ import { DeleteCategory } from 'src/app/core/use-cases/delete-category.use-case'
 import { ToastService } from '../../services/toast.service';
 
 
+
 @Component({
   selector: 'app-categories',
   templateUrl: './categories.page.html',
@@ -33,10 +34,12 @@ export class CategoriesPage {
   async addCategory() {
 
     await this.createCategory.execute({
-      name: 'Nueva categoría',
+      name: 'Nueva categoría ' + crypto.randomUUID().replace(/-/g, '').slice(-6), //FIXME - arreglar formato fecha
       color: '#3498db'
     });
     this.categories = await this.getCategories.execute();
+
+    console.log("categorias", this.categories);
   }
 
     async delete(idCategory: number){
