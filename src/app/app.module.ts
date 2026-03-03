@@ -11,6 +11,8 @@ import { LocalStorageCategoryRepository } from './infrastructure/repositories/lo
 import { HttpClientModule } from '@angular/common/http';
 import { JsonTodoRepository } from './infrastructure/repositories/json-todo.repository';
 import { JsonCategoryRepository } from './infrastructure/repositories/json-category.repository';
+import { HeavyTaskPort } from './core/ports/heavy-task.port';
+import { WorkerHeavyTaskAdapter } from './infrastructure/background/worker-heavy-task.adapter';
 
 @NgModule({
   declarations: [AppComponent],
@@ -23,9 +25,9 @@ import { JsonCategoryRepository } from './infrastructure/repositories/json-categ
     // Nuevos proveedores para obtener la información
     { provide: TodoRepository, useClass: JsonTodoRepository },
     { provide: CategoryRepository, useClass: JsonCategoryRepository },
-
-
+    { provide: HeavyTaskPort, useClass: WorkerHeavyTaskAdapter },
   ],
+
   bootstrap: [AppComponent],
 })
 export class AppModule {}
