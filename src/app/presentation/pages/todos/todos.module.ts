@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { TodosPageRoutingModule } from './todos-routing.module';
 
 import { TodosPage } from './todos.page';
+import { CategoryModalComponent } from './category-modal.component';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { TodosPage } from './todos.page';
     IonicModule,
     TodosPageRoutingModule
   ],
-  declarations: [TodosPage]
+  declarations: [TodosPage, CategoryModalComponent],
+  // Para modales en Ionic 6+, agregar entryComponents si es necesario
 })
 export class TodosPageModule {}

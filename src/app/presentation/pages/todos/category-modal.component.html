@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title *ngIf="!isNew">Editar Tarea</ion-title>
+    <ion-title *ngIf="isNew">Nueva Tarea</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item>
+      <ion-label position="stacked">Título</ion-label>
+      <ion-input [(ngModel)]="title" placeholder="Título de la tarea"></ion-input>
+    </ion-item>
+    <ion-radio-group [(ngModel)]="selectedId">
+      <ion-list-header>Categoría</ion-list-header>
+      <ion-item *ngFor="let category of categories">
+        <ion-label>{{ category.name }}</ion-label>
+        <ion-radio slot="end" [value]="category.id"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+    <ion-item>
+      <ion-label>Estado</ion-label>
+      <ion-select [(ngModel)]="selectedCompleted">
+        <ion-select-option [value]="true">Completado</ion-select-option>
+        <ion-select-option [value]="false">Pendiente</ion-select-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>
+  <ion-footer>
+    <ion-button expand="block" (click)="confirm()">
+      {{ isNew ? 'Crear Tarea' : 'Confirmar' }}
+    </ion-button>
+  </ion-footer>
+</ion-content>

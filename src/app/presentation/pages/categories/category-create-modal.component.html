@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Nueva Categoría</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="close()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item>
+      <ion-label position="stacked">Nombre</ion-label>
+      <ion-input [(ngModel)]="name" placeholder="Nombre de la categoría"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Color</ion-label>
+      <div class="color-palette">
+        <span *ngFor="let pastel of pastelColors"
+              class="color-circle"
+              [style.background]="pastel"
+              [class.selected]="color === pastel"
+              (click)="color = pastel">
+        </span>
+      </div>
+    </ion-item>
+  </ion-list>
+  <ion-footer>
+    <ion-button expand="block" (click)="confirm()">Crear Categoría</ion-button>
+  </ion-footer>
+</ion-content>

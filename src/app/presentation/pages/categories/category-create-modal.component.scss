@@ -1,0 +1,34 @@
+.modal-wrapper {
+  --width: 90vw;
+  --max-width: 400px;
+}
+
+ion-select-option span {
+  border: 1px solid #d1d8e0;
+}
+
+.color-palette {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  width: 100%;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.color-circle {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid #d1d8e0;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.07);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.color-circle.selected {
+  border-color: #2c3e50;
+  box-shadow: 0 0 0 2px #2c3e50;
+}

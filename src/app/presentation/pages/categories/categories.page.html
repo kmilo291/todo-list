@@ -10,14 +10,22 @@
 </ion-header>
 
 
+
+
 <ion-content class="categories">
+
+  <ion-searchbar [(ngModel)]="searchTerm" placeholder="Buscar categoría" (ionInput)="filterCategories()"></ion-searchbar>
 
   <ion-list>
 
     <ion-item
-      *ngFor="let category of categories"
+      *ngFor="let category of filteredCategories"
       class="categories__item">
-
+      <ion-icon
+      slot="start"
+      name="ellipse"
+      [ngStyle]="{color: category.color}">
+      </ion-icon>
       <ion-label>
 
         <h2 class="categories__name">
@@ -27,9 +35,12 @@
           </span>
 
           {{ category.name }}
+
         </h2>
 
       </ion-label>
+
+
 
       <div class="categories__actions">
 
@@ -38,6 +49,7 @@
           (click)="delete(category.id)">
           <ion-icon name="trash" color="danger"></ion-icon>
         </ion-button>
+        <span class="categories__color-circle" [style.background]="category.color"></span>
 
       </div>
 

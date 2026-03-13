@@ -2,7 +2,7 @@
   <ion-toolbar>
     <ion-title>Todos</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="addTodo()">
+      <ion-button (click)="openNewTodoModal()">
         <ion-icon name="add"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -12,20 +12,35 @@
 
 <ion-content class="todos">
 
+<ion-segment value="all" (ionChange)="onSegmentChanged($event)">
+  <ion-segment-button value="all">
+    <ion-label>Todos</ion-label>
+  </ion-segment-button>
+  <ion-segment-button value="completed">
+     <ion-label>Completados</ion-label>
+  </ion-segment-button>
+  <ion-segment-button value="pending">
+    <ion-label>Pendientes</ion-label>
+  </ion-segment-button>
+</ion-segment>
+
+  <ion-searchbar [(ngModel)]="searchTerm" placeholder="Buscar categoría" (ionInput)="filterTodos()"></ion-searchbar>
+
   <ion-list>
 
     <ion-item
-      *ngFor="let todo of todos"
-      class="todos__item">
+      *ngFor="let todo of filteredTodos"
+      class="todos__item"
+      (click)="openCategoryModal(todo)"
+      button>
 
       <ion-label class="todos__content" >
-
         <div>
           <h2 class="todos__title">
             {{ todo.title }}
           </h2>
 
-          <p *ngIf="todo.category" class="todos__category">
+          <p *ngIf="todo.category" class="todos__category" [style.color]="todo.category.color">
             Categoría: {{ todo.category.name }}
           </p>
 
@@ -34,39 +49,19 @@
             [ngClass]="{
               'todos__status--completed': todo.completed,
               'todos__status--pending': !todo.completed
-            }">
+            }"
+            [style.color]="todo.completed ? '#27ae60' : '#e67e22'">
             {{ todo.completed ? 'Completado' : 'Pendiente' }}
           </p>
         </div>
-
-        <div class="todos__select" >
-          <ion-select
-            interface="popover"
-            placeholder="Cambiar categoría"
-            [value]="todo.categoryId"
-            (ionChange)="changeCategory(todo, $event.detail.value)">
-
-            <ion-select-option
-              *ngFor="let category of categories"
-              [value]="category.id">
-
-              {{ category.name }}
-
-            </ion-select-option>
-
-          </ion-select>
-        </div>
-
       </ion-label>
 
-      <div class="todos__actions">
-
+      <div class="todos__actions" (click)="$event.stopPropagation()">
         <ion-button
           fill="clear"
           (click)="delete(todo.id)">
           <ion-icon name="trash" color="danger"></ion-icon>
         </ion-button>
-
       </div>
 
     </ion-item>
