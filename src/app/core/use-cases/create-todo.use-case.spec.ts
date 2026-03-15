@@ -2,19 +2,28 @@ import { CreateTodo } from './create-todo.use-case';
 import { TodoRepository } from '../ports/todo.repository';
 import { CategoryRepository } from '../ports/category.repository';
 import { CreateTodoDto } from '../models/dtos/create-todo.dto';
+import { IdGeneratorPort } from '../ports/id-generator.port';
 
 describe('CreateTodo UseCase', () => {
 
   let useCase: CreateTodo;
   let mockTodoRepository: jasmine.SpyObj<TodoRepository>;
   let mockCategoryRepository: jasmine.SpyObj<CategoryRepository>;
+  let mockIdGenerator: jasmine.SpyObj<IdGeneratorPort>;
 
   beforeEach(() => {
 
-    mockTodoRepository = jasmine.createSpyObj('TodoRepository', ['save']);
-    mockCategoryRepository = jasmine.createSpyObj('CategoryRepository', ['save']);
+    mockTodoRepository      = jasmine.createSpyObj('TodoRepository', ['save']);
+    mockCategoryRepository  = jasmine.createSpyObj('CategoryRepository', ['getAll']);
+    mockIdGenerator         = jasmine.createSpyObj('IdGeneratorPort', ['generate']);
 
-    useCase = new CreateTodo(mockTodoRepository, mockCategoryRepository);
+    mockIdGenerator.generate.and.returnValue(1);
+
+    useCase = new CreateTodo(
+      mockTodoRepository,
+      mockCategoryRepository,
+      mockIdGenerator
+    );
   });
 
   it('should return error if title is empty', async () => {
@@ -45,5 +54,25 @@ describe('CreateTodo UseCase', () => {
     expect(result.success).toBeTrue();
     expect(mockTodoRepository.save).toHaveBeenCalled();
   });
+
+  it('should assign random category when categoryId is not provided', async () => {
+
+  const dto: CreateTodoDto = {
+    title: 'Aprender testing'
+  };
+
+  mockCategoryRepository.getAll.and.resolveTo([
+    { id: 1, name: 'Trabajo', color: '#fff' },
+    { id: 2, name: 'Personal', color: '#000' }
+  ]);
+
+  mockTodoRepository.save.and.resolveTo();
+
+  const result = await useCase.execute(dto);
+
+  expect(result.success).toBeTrue();
+  expect(mockCategoryRepository.getAll).toHaveBeenCalled();
+  expect(mockTodoRepository.save).toHaveBeenCalled();
+});
 
 });

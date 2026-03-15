@@ -7,7 +7,7 @@ import { ToastService } from '../../services/toast.service';
 import { ModalController } from '@ionic/angular';
 import { CategoryChangeModalComponent } from './category-change-modal.component';
 import { UpdateCategory } from 'src/app/core/use-cases/update-category.use-case';
-
+import { CategoriesFacade } from '../../facades/categories.facade';
 
 
 @Component({
@@ -22,21 +22,18 @@ export class CategoriesPage {
   filteredCategories: Category[] = [];
 
   constructor(
-    private getCategories: GetCategories,
-    private createCategory: CreateCategory,
-    private deleteCategory: DeleteCategory,
-    private updateCategory: UpdateCategory,
+    private categoriesFacade: CategoriesFacade,
     private toastSrv: ToastService,
     private modalCtrl: ModalController
   ) {}
 
   async ionViewWillEnter() {
-    this.categories = await this.getCategories.execute();
+    this.categories = await this.categoriesFacade.getAll();
     this.filteredCategories = this.categories;
   }
 
   async loadCategories() {
-    this.categories = await this.getCategories.execute();
+    this.categories = await this.categoriesFacade.getAll();
     this.filterCategories();
   }
 
@@ -58,13 +55,13 @@ export class CategoriesPage {
     await modal.present();
     const { data } = await modal.onWillDismiss();
     if (data && data.name && data.color) {
-      await this.createCategory.execute({ name: data.name, color: data.color });
+      await this.categoriesFacade.create(data.name, data.color);
       await this.loadCategories();
     }
   }
 
   async delete(idCategory: number){
-    const result = await this.deleteCategory.execute({ id: idCategory });
+    const result = await this.categoriesFacade.delete(idCategory);
 
     if (!result.success) {
       console.error(result.error);
@@ -94,7 +91,7 @@ export class CategoriesPage {
 
     if (!data) return;
 
-    const result = await this.updateCategory.execute({
+    const result = await this.categoriesFacade.update({
       id: category.id,
       name: data.name,
       color: data.color
