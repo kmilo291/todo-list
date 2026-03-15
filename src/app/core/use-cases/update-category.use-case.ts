@@ -10,8 +10,8 @@ export class UpdateCategory {
 
   async execute(category: UpdateCategoryDto): Promise<Result<void>> {
 
-    if (!category.id) {
-      return { success: false, error: 'Id inválido' };
+    if (!category.name.trim()) {
+      return { success: false, error: 'El nombre no puede estar vacío' };
     }
 
     try {

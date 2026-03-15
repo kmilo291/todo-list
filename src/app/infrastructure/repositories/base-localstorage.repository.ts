@@ -3,8 +3,16 @@ export abstract class BaseLocalStorageRepository<T extends { id: number }> {
   constructor(private storageKey: string) {}
 
   async getAll(): Promise<T[]> {
+
     const data = localStorage.getItem(this.storageKey);
-    return data ? JSON.parse(data) : [];
+
+    if (!data) return [];
+
+    try {
+      return JSON.parse(data);
+    } catch {
+      return [];
+    }
   }
 
   async save(entity: T): Promise<void> {

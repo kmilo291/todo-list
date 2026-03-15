@@ -10,7 +10,7 @@ import { IdGeneratorPort } from '../ports/id-generator.port';
 @Injectable({ providedIn: 'root' })
 export class CreateTodo {
 
-  constructor(private TodoRepo: TodoRepository,
+  constructor(private todoRepo: TodoRepository,
     private categoryRepo: CategoryRepository,
     private idGenerator: IdGeneratorPort
   ) {}
@@ -47,7 +47,7 @@ export class CreateTodo {
       categoryId
     };
 
-    await this.TodoRepo.save(todo);
+    await this.todoRepo.save(todo);
 
     return { success: true };
   }
