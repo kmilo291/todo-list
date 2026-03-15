@@ -178,6 +178,7 @@ export class TodosPage {
     const { data } = await modal.onWillDismiss();
     if (data && data.title && data.categoryId) {
       const result = await this.todosFacade.create(data.title, data.categoryId);
+
       if (!result.success) {
         this.toastSrv.error(result.error ?? "Error general");
         return;

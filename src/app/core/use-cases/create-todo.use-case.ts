@@ -17,34 +17,25 @@ export class CreateTodo {
 
   async execute(data: CreateTodoDto): Promise<Result<void>> {
 
-    if (!data.title.trim()) {
+    if (!data.title || !data.title.trim()) {
       return {
         success: false,
         error: 'El título no puede estar vacío'
       };
     }
 
-    let categoryId = data.categoryId;
-
-    if (!categoryId) {
-      const categories = await this.categoryRepo.getAll();
-
-      if (!categories.length) {
-        return {
-          success: false,
-          error: 'No existen categorías disponibles'
-        };
-      }
-
-      const randomIndex = Math.floor(Math.random() * categories.length);
-      categoryId = categories[randomIndex].id;
+    if (!data.categoryId) {
+      return {
+        success: false,
+        error: 'Debes seleccionar una categoría'
+      };
     }
 
     const todo: Todo = {
       id: this.idGenerator.generate(),
-      title: data.title,
+      title: data.title.trim(),
       completed: false,
-      categoryId
+      categoryId: data.categoryId
     };
 
     await this.todoRepo.save(todo);

@@ -14,7 +14,11 @@
   <ion-list>
     <ion-item>
       <ion-label position="stacked">Nombre</ion-label>
-      <ion-input [(ngModel)]="name" placeholder="Nombre de la categoría"></ion-input>
+      <ion-input
+        [(ngModel)]="name"
+        maxlength="30"
+        placeholder="Nombre de la categoría">
+      </ion-input>
     </ion-item>
     <ion-item>
       <ion-label position="stacked">Color</ion-label>
@@ -29,7 +33,13 @@
     </ion-item>
   </ion-list>
   <ion-footer>
-    <ion-button *ngIf="!isNew" expand="block" (click)="confirm()">Actualizar Categoría</ion-button>
-    <ion-button *ngIf="isNew" expand="block" (click)="confirm()">Crear Categoría</ion-button>
+    <ion-button
+      expand="block"
+      [disabled]="!name || !name.trim() || !color"
+      (click)="confirm()">
+
+      {{ isNew ? 'Crear Categoría' : 'Actualizar Categoría' }}
+
+    </ion-button>
   </ion-footer>
 </ion-content>

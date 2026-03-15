@@ -36,7 +36,32 @@ export class CategoryChangeModalComponent {
   }
 
   confirm() {
-    this.modalCtrl.dismiss({ name: this.name, color: this.color });
+
+    if (!this.name || !this.name.trim()) {
+      alert('Debes ingresar un nombre para la categoría');
+      return;
+    }
+
+    if (!this.color) {
+      alert('Debes seleccionar un color');
+      return;
+    }
+
+    const exists = this.categories.some(c =>
+      c.name.toLowerCase() === this.name.toLowerCase() &&
+      c.id !== this.selectedCategoryId
+    );
+
+    if (exists) {
+      alert('Ya existe una categoría con ese nombre');
+      return;
+    }
+
+    this.modalCtrl.dismiss({
+      name: this.name.trim(),
+      color: this.color
+    });
+
   }
 
   close() {
