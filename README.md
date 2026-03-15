@@ -387,6 +387,30 @@ Posibles mejoras para el proyecto:
 
 ------------------------------------------------------------------------
 
+## 📦 Descargas de la aplicación
+
+Si deseas probar la aplicación móvil, puedes descargar las versiones compiladas desde los siguientes enlaces:
+
+### 🤖 Android
+
+Descarga el archivo APK desde el siguiente enlace:
+
+🔗 https://drive.google.com/file/d/1ihoXf_atyPVmS5B3pTcB8yK8JNGRff4V/view?usp=sharing
+
+> Nota: Es posible que debas habilitar la instalación desde **fuentes desconocidas** en tu dispositivo Android.
+
+---
+
+### 🍎 iOS
+
+La versión para iOS se encuentra disponible en la siguiente carpeta:
+
+🔗 https://drive.google.com/drive/folders/1U5UeOQ5aKx4gpMpppAzZTbZ7aNYILLHN?usp=sharing
+
+> Debido a las restricciones de iOS, la instalación puede requerir herramientas adicionales como **TestFlight o Xcode**.
+
+------------------------------------------------------------------------
+
 # 🧠 Preguntas y respuestas sobre el desarrollo
 
 ## ¿Cuáles fueron los principales desafíos que enfrentaste al implementar las nuevas funcionalidades?
