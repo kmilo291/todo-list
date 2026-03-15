@@ -1,17 +1,12 @@
-import { Component, computed, signal } from '@angular/core';
-import { ToastService } from '../../services/toast.service';
-import { TodoWithCategory } from 'src/app/core/models/projections/todo-with-category.model';
-import { GetTodosWithCategory } from 'src/app/core/use-cases/get-todos-with-category.use-case';
-import { GetCategories } from 'src/app/core/use-cases/get-categories.use-case';
 import { Category } from 'src/app/core/models/shared/category.model';
-import { CreateTodo } from 'src/app/core/use-cases/create-todo.use-case';
-import { DeleteTodo } from 'src/app/core/use-cases/delete-todo.use-case';
-import { UpdateTodo } from 'src/app/core/use-cases/update-todo.use-case';
-import { ModalController, SegmentCustomEvent } from '@ionic/angular';
 import { CategoryModalComponent } from './category-modal.component';
+import { Component, computed, signal } from '@angular/core';
 import { CreateCategory } from 'src/app/core/use-cases/create-category.use-case';
+import { ModalController, SegmentCustomEvent } from '@ionic/angular';
+import { ToastService } from '../../services/toast.service';
 import { TodoFilterService } from '../../services/todo-filter.service';
 import { TodosFacade } from '../../facades/todos.facade';
+import { TodoWithCategory } from 'src/app/core/models/projections/todo-with-category.model';
 
 type TodoFilter = 'all' | 'completed' | 'pending';
 

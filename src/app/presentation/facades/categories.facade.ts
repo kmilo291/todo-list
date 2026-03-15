@@ -3,9 +3,9 @@ import { CreateCategory } from 'src/app/core/use-cases/create-category.use-case'
 import { DeleteCategory } from 'src/app/core/use-cases/delete-category.use-case';
 import { UpdateCategory } from 'src/app/core/use-cases/update-category.use-case';
 import { GetCategories } from 'src/app/core/use-cases/get-categories.use-case';
-
 import { Category } from 'src/app/core/models/shared/category.model';
 import { Result } from 'src/app/core/models/shared/result.model';
+import { UpdateCategoryDto } from 'src/app/core/models/dtos/update-category.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -31,7 +31,7 @@ export class CategoriesFacade {
     return this.deleteCategory.execute({ id });
   }
 
-  async update(category: Category): Promise<Result<void>> {
+  async update(category: UpdateCategoryDto): Promise<Result<void>> {
     return this.updateCategory.execute(category);
   }
 

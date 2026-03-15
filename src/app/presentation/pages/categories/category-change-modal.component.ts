@@ -11,7 +11,7 @@ import { Category } from 'src/app/core/models/shared/category.model';
 export class CategoryChangeModalComponent {
 
   @Input() categories: Category[] = [];
-  @Input() selectedCategoryId!: number;
+  @Input() selectedCategoryId!: number | null;
   @Input() completed!: boolean;
   @Input() isNew: boolean = false;
   @Input() categoryTitle: string = '';
