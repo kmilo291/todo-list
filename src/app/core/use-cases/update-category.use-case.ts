@@ -1,7 +1,5 @@
 import { Injectable } from "@angular/core";
-import { TodoRepository } from "../ports/todo.repository";
 import { Result } from "../models/shared/result.model";
-import { UpdateTodoDto } from "../models/dtos/update-todo.dto";
 import { CategoryRepository } from "../ports/category.repository";
 import { UpdateCategoryDto } from "../models/dtos/update-category.dto";
 

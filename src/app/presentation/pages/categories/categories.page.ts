@@ -6,6 +6,7 @@ import { DeleteCategory } from 'src/app/core/use-cases/delete-category.use-case'
 import { ToastService } from '../../services/toast.service';
 import { ModalController } from '@ionic/angular';
 import { CategoryChangeModalComponent } from './category-change-modal.component';
+import { UpdateCategory } from 'src/app/core/use-cases/update-category.use-case';
 
 
 
@@ -24,6 +25,7 @@ export class CategoriesPage {
     private getCategories: GetCategories,
     private createCategory: CreateCategory,
     private deleteCategory: DeleteCategory,
+    private updateCategory: UpdateCategory,
     private toastSrv: ToastService,
     private modalCtrl: ModalController
   ) {}
@@ -73,36 +75,36 @@ export class CategoriesPage {
     await this.loadCategories();
   }
 
-    async openUpdateCategoryModal(category: Category) {
-      const modal = await this.modalCtrl.create({
-        component: CategoryChangeModalComponent,
-        componentProps: {
-          categories: this.categories,
-          selectedCategoryId: category.id,
-          categoryTitle: category.name,
-          categoryColor: category.color,
-          isNew: false
-        }
-      });
-      await modal.present();
-      const { data } = await modal.onWillDismiss();
-      // if (data && (
-      //   data.categoryId !== todo.categoryId ||
-      //   data.completed !== todo.completed ||
-      //   data.title !== todo.title
-      // )) {
-      //   const updatedTodo = {
-      //     ...todo,
-      //     categoryId: data.categoryId,
-      //     completed: data.completed,
-      //     title: data.title
-      //   };
-      //   const result = await this.todosFacade.update(updatedTodo);
-      //   if (!result.success) {
-      //     this.toastSrv.error(result.error ?? "Error general");
-      //     return;
-      //   }
-      //   await this.loadTodos();
-      // }
+  async openUpdateCategoryModal(category: Category) {
+
+    const modal = await this.modalCtrl.create({
+      component: CategoryChangeModalComponent,
+      componentProps: {
+        categories: this.categories,
+        selectedCategoryId: category.id,
+        categoryTitle: category.name,
+        categoryColor: category.color,
+        isNew: false
+      }
+    });
+
+    await modal.present();
+
+    const { data } = await modal.onWillDismiss();
+
+    if (!data) return;
+
+    const result = await this.updateCategory.execute({
+      id: category.id,
+      name: data.name,
+      color: data.color
+    });
+
+    if (!result.success) {
+      this.toastSrv.error(result.error ?? "Error general");
+      return;
     }
+
+    await this.loadCategories();
+  }
 }
