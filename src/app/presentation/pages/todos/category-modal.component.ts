@@ -10,7 +10,7 @@ import { Category } from 'src/app/core/models/shared/category.model';
 })
 export class CategoryModalComponent {
   @Input() categories: Category[] = [];
-  @Input() selectedCategoryId!: number;
+  @Input() selectedCategoryId!: number | null;
   @Input() completed!: boolean;
   @Input() isNew: boolean = false;
   @Input() todoTitle: string = '';
@@ -20,7 +20,7 @@ export class CategoryModalComponent {
   newCategoryName: string = '';
   newCategoryColor: string = '#2196f3';
 
-  selectedId!: number;
+  selectedId!: number | null;
   selectedCompleted!: boolean;
 
   constructor(private modalCtrl: ModalController) {}

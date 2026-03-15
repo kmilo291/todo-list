@@ -10,8 +10,8 @@ export class UpdateTodo {
 
   async execute(todo: UpdateTodoDto): Promise<Result<void>> {
 
-    if (!todo.id) {
-      return { success: false, error: 'Id inválido' };
+    if (!todo.title.trim()) {
+      return { success: false, error: 'Título inválido' };
     }
 
     try {

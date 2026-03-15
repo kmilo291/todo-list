@@ -47,7 +47,7 @@
 
         <ion-button
           fill="clear"
-          (click)="delete(category.id)">
+          (click)="delete(category.id); $event.stopPropagation()">
           <ion-icon name="trash" color="danger"></ion-icon>
         </ion-button>
         <span class="categories__color-circle" [style.background]="category.color"></span>
