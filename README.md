@@ -411,6 +411,20 @@ La versión para iOS se encuentra disponible en la siguiente carpeta:
 
 ------------------------------------------------------------------------
 
+## Videos funcionalidad
+
+Descarga los videos con evidencias del siguiente enlace 
+
+🔗 https://drive.google.com/drive/folders/1O-PKOyMEsn-F7BBfV_zqjltiJ0P8i0fz?usp=sharing
+
+En este encontraras 
+
+- Remote Config
+- Crud Todo y Categorias
+- Workers y Seed
+
+------------------------------------------------------------------------
+
 # 🧠 Preguntas y respuestas sobre el desarrollo
 
 ## ¿Cuáles fueron los principales desafíos que enfrentaste al implementar las nuevas funcionalidades?
