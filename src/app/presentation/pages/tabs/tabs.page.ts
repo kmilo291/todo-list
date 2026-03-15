@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { RemoteConfigService } from 'src/app/infrastructure/services/remote-config.service';
 
 @Component({
   selector: 'app-tabs',
@@ -8,8 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TabsPage implements OnInit {
 
-  constructor() { }
+  showSettings = false;
 
-  ngOnInit() {}
+  constructor(private remoteConfig: RemoteConfigService) { }
+
+  async ngOnInit() {
+
+  this.showSettings =
+  await this.remoteConfig.getBoolean('enable_config_settings');
+  }
 
 }

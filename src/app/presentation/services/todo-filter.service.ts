@@ -7,6 +7,7 @@ export interface TodoFilterCriteria {
   todos: TodoWithCategory[];
   search?: string;
   status?: TodoFilter;
+  categoryId?: number | null;
 }
 
 @Injectable({
@@ -14,34 +15,44 @@ export interface TodoFilterCriteria {
 })
 export class TodoFilterService {
 
-  apply(criteria: TodoFilterCriteria): TodoWithCategory[] {
+apply(criteria: TodoFilterCriteria): TodoWithCategory[] {
 
-    let result = [...criteria.todos];
+  console.log(criteria)
 
-    if (criteria.search) {
-      const term = criteria.search.toLowerCase();
+  let result = [...criteria.todos];
 
-      result = result.filter(todo => {
+  if (criteria.search) {
 
-        const matchesTitle =
-          todo.title.toLowerCase().includes(term);
+    const term = criteria.search.toLowerCase();
 
-        const matchesCategory =
-          todo.category?.name?.toLowerCase().includes(term) ?? false;
+    result = result.filter(todo => {
 
-        return matchesTitle || matchesCategory;
-      });
-    }
+      const matchesTitle =
+        todo.title.toLowerCase().includes(term);
 
-    if (criteria.status && criteria.status !== 'all') {
+      const matchesCategory =
+        todo.category?.name?.toLowerCase().includes(term) ?? false;
 
-      result = result.filter(todo =>
-        criteria.status === 'completed'
-          ? todo.completed
-          : !todo.completed
-      );
-    }
-
-    return result;
+      return matchesTitle || matchesCategory;
+    });
   }
+
+  if (criteria.status && criteria.status !== 'all') {
+
+    result = result.filter(todo =>
+      criteria.status === 'completed'
+        ? todo.completed
+        : !todo.completed
+    );
+  }
+
+  if (criteria.categoryId) {
+
+    result = result.filter(todo =>
+      todo.categoryId === criteria.categoryId
+    );
+  }
+
+  return result;
+}
 }

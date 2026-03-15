@@ -7,6 +7,8 @@ import { ToastService } from '../../services/toast.service';
 import { TodoFilterService } from '../../services/todo-filter.service';
 import { TodosFacade } from '../../facades/todos.facade';
 import { TodoWithCategory } from 'src/app/core/models/projections/todo-with-category.model';
+import { AlertController } from '@ionic/angular';
+import { Todo } from 'src/app/core/models/shared/todo.model';
 
 type TodoFilter = 'all' | 'completed' | 'pending';
 
@@ -19,7 +21,7 @@ export class TodosPage {
 
   categories: Category [] = [];
   selectedCategoryId!: number;
-  selectedCategoryFilter: number | null = null;
+  selectedCategoryFilter = signal<number | null>(null);
   todos = signal<TodoWithCategory[]>([]);
   searchTerm = signal('');
   currentStatus = signal<TodoFilter>('all');
@@ -28,12 +30,15 @@ export class TodosPage {
     const todos = this.todos();
     const search = this.searchTerm();
     const status = this.currentStatus();
+    const category = this.selectedCategoryFilter;
 
     return this.todoFilterSrv.apply({
       todos,
       search,
-      status
+      status,
+      categoryId: category()
     });
+
   });
 
 
@@ -42,12 +47,17 @@ export class TodosPage {
     private createCategory: CreateCategory,
     private toastSrv: ToastService,
     private modalCtrl: ModalController,
-    private todoFilterSrv: TodoFilterService
+    private todoFilterSrv: TodoFilterService,
+    private alertCtrl: AlertController
   ) {}
 
   async ionViewWillEnter() {
     await this.loadTodos();
     await this.loadCategories();
+  }
+
+  onCategoryFilterChanged(categoryId: number | null) {
+    this.selectedCategoryFilter.set(categoryId);
   }
 
    async loadCategories() {
@@ -60,7 +70,7 @@ export class TodosPage {
 
   async addTodo() {
 
-    const result = await this.todosFacade.create("Nuevo todo", this.selectedCategoryFilter ?? undefined);
+    const result = await this.todosFacade.create("Nuevo todo", this.selectedCategoryFilter() ?? undefined);
 
     if (!result.success) {
       console.error(result.error);
@@ -72,16 +82,35 @@ export class TodosPage {
   }
 
 
-  async delete(idTodo: number){
-    const result = await this.todosFacade.delete(idTodo);
+  async delete(todo: Todo) {
 
-    if (!result.success) {
-      console.error(result.error);
-      this.toastSrv.error(result.error ?? "Error general");
-      return;
-    }
+    const alert = await this.alertCtrl.create({
+      header: 'Confirmar eliminación',
+      message: `¿Deseas eliminar ${todo.title}?`,
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel'
+        },
+        {
+          text: 'Eliminar',
+          role: 'destructive',
+          handler: async () => {
 
-    await this.loadTodos();
+            const result = await this.todosFacade.delete(todo.id);
+
+            if (!result.success) {
+              this.toastSrv.error(result.error ?? "Error general");
+              return;
+            }
+
+            await this.loadTodos();
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
 
   async changeCategory(todo: TodoWithCategory, categoryId: number) {

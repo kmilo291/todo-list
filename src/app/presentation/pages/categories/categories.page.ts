@@ -1,13 +1,10 @@
-import { GetCategories } from 'src/app/core/use-cases/get-categories.use-case';
-import { CreateCategory } from 'src/app/core/use-cases/create-category.use-case';
 import { Category } from 'src/app/core/models/shared/category.model';
 import { Component } from '@angular/core';
-import { DeleteCategory } from 'src/app/core/use-cases/delete-category.use-case';
 import { ToastService } from '../../services/toast.service';
-import { ModalController } from '@ionic/angular';
+import { ModalController, AlertController } from '@ionic/angular';
 import { CategoryChangeModalComponent } from './category-change-modal.component';
-import { UpdateCategory } from 'src/app/core/use-cases/update-category.use-case';
 import { CategoriesFacade } from '../../facades/categories.facade';
+
 
 
 @Component({
@@ -24,7 +21,8 @@ export class CategoriesPage {
   constructor(
     private categoriesFacade: CategoriesFacade,
     private toastSrv: ToastService,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private alertCtrl: AlertController
   ) {}
 
   async ionViewWillEnter() {
@@ -61,15 +59,35 @@ export class CategoriesPage {
   }
 
   async delete(idCategory: number){
-    const result = await this.categoriesFacade.delete(idCategory);
 
-    if (!result.success) {
-      console.error(result.error);
-      this.toastSrv.error(result.error ?? "Error general");
-      return;
-    }
+    const category = this.categories.find(c => c.id === idCategory);
 
-    await this.loadCategories();
+    const alert = await this.alertCtrl.create({
+      header: 'Confirmar eliminación',
+      message: `¿Deseas eliminar la categoría ${category?.name}?`,
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel'
+        },
+        {
+          text: 'Eliminar',
+          role: 'destructive',
+          handler: async () => {
+
+            const result = await this.categoriesFacade.delete(idCategory);
+
+            if (!result.success) {
+              this.toastSrv.error(result.error ?? "Error general");
+              return;
+            }
+            await this.loadCategories();
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
 
   async openUpdateCategoryModal(category: Category) {

@@ -14,6 +14,10 @@ export class CreateCategory {
 
   async execute(data: CreateCategoryDto): Promise<void> {
 
+    if (!data.name.trim()) {
+      throw new Error('Nombre inválido');
+    }
+
     const category: Category = {
       id: this.idGenerator.generate(),
       ...data

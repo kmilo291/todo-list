@@ -29,7 +29,53 @@
     (ngModelChange)="searchTerm.set($event)">
   </ion-searchbar>
 
-  <ion-list>
+  <ion-item>
+    <ion-label>Categoría</ion-label>
+
+    <ion-select
+      placeholder="Todas"
+      [value]="selectedCategoryFilter"
+      (ionChange)="onCategoryFilterChanged($event.detail.value)">
+
+      <ion-select-option [value]="null">
+        Todas
+      </ion-select-option>
+
+      <ion-select-option
+        *ngFor="let category of categories"
+        [value]="category.id">
+
+        {{ category.name }}
+
+      </ion-select-option>
+
+    </ion-select>
+
+</ion-item>
+
+  <div
+    class="todos__empty"
+    *ngIf="filteredTodos().length === 0">
+
+    <ion-card>
+
+      <ion-card-content>
+
+        <ion-icon name="file-tray-outline" size="large"></ion-icon>
+
+        <h2>No hay tareas</h2>
+
+        <p>
+          Esta categoría no tiene tareas asignadas.
+        </p>
+
+      </ion-card-content>
+
+    </ion-card>
+
+  </div>
+
+  <ion-list *ngIf="filteredTodos().length > 0">
 
     <ion-item
       *ngFor="let todo of filteredTodos()"
@@ -62,7 +108,7 @@
       <div class="todos__actions" (click)="$event.stopPropagation()">
         <ion-button
           fill="clear"
-          (click)="delete(todo.id)">
+          (click)="delete(todo)">
           <ion-icon name="trash" color="danger"></ion-icon>
         </ion-button>
       </div>

@@ -12,7 +12,9 @@
       <ion-label>Categorías</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button tab="settings">
+    <ion-tab-button
+      *ngIf="showSettings"
+      tab="settings">
       <ion-icon name="settings"></ion-icon>
       <ion-label>Configuración</ion-label>
     </ion-tab-button>
