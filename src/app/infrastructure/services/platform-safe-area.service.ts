@@ -20,7 +20,7 @@ export class PlatformSafeAreaService {
     }
 
     if (this.platform.is('ios')) {
-      root.style.setProperty('--ion-safe-area-top', '35px');
+      root.style.setProperty('--ion-safe-area-top', '45px');
       return;
     }
 

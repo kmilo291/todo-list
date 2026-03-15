@@ -9,6 +9,7 @@ import { TodosFacade } from '../../facades/todos.facade';
 import { TodoWithCategory } from 'src/app/core/models/projections/todo-with-category.model';
 import { AlertController } from '@ionic/angular';
 import { Todo } from 'src/app/core/models/shared/todo.model';
+import { TodoEventsService } from '../../services/todo-events.service';
 
 type TodoFilter = 'all' | 'completed' | 'pending';
 
@@ -21,7 +22,7 @@ export class TodosPage {
 
   categories: Category [] = [];
   selectedCategoryId!: number;
-  selectedCategoryFilter = signal<number | null>(null);
+  selectedCategoryFilter = signal<number | 'all'>('all');
   todos = signal<TodoWithCategory[]>([]);
   searchTerm = signal('');
   currentStatus = signal<TodoFilter>('all');
@@ -48,16 +49,25 @@ export class TodosPage {
     private toastSrv: ToastService,
     private modalCtrl: ModalController,
     private todoFilterSrv: TodoFilterService,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    private todoEvents: TodoEventsService
   ) {}
+
+  ngOnInit() {
+
+    this.todoEvents.refresh$.subscribe(() => {
+      this.loadTodos();
+    });
+
+  }
 
   async ionViewWillEnter() {
     await this.loadTodos();
     await this.loadCategories();
   }
 
-  onCategoryFilterChanged(categoryId: number | null) {
-    this.selectedCategoryFilter.set(categoryId);
+  onCategoryFilterChanged(value: number | 'all') {
+    this.selectedCategoryFilter.set(value);
   }
 
    async loadCategories() {
@@ -70,7 +80,14 @@ export class TodosPage {
 
   async addTodo() {
 
-    const result = await this.todosFacade.create("Nuevo todo", this.selectedCategoryFilter()!);
+    const categoryId = this.selectedCategoryFilter();
+
+    if (categoryId === 'all') {
+      this.toastSrv.warning('Debes seleccionar una categoría');
+      return;
+    }
+
+    const result = await this.todosFacade.create("Nuevo todo", categoryId);
 
     if (!result.success) {
       console.error(result.error);

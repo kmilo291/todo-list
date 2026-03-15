@@ -7,7 +7,7 @@ export interface TodoFilterCriteria {
   todos: TodoWithCategory[];
   search?: string;
   status?: TodoFilter;
-  categoryId?: number | null;
+  categoryId?: number | 'all';
 }
 
 @Injectable({
@@ -21,7 +21,7 @@ apply(criteria: TodoFilterCriteria): TodoWithCategory[] {
 
   let result = [...criteria.todos];
 
-  if (criteria.search) {
+  if (criteria.search?.trim()) {
 
     const term = criteria.search.toLowerCase();
 
@@ -46,11 +46,12 @@ apply(criteria: TodoFilterCriteria): TodoWithCategory[] {
     );
   }
 
-  if (criteria.categoryId) {
+  if (criteria.categoryId !== 'all') {
 
     result = result.filter(todo =>
       todo.categoryId === criteria.categoryId
     );
+
   }
 
   return result;

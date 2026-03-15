@@ -31,6 +31,7 @@
 
   <ion-searchbar
     [ngModel]="searchTerm()"
+    placeholder="Buscar tarea"
     (ngModelChange)="searchTerm.set($event)">
   </ion-searchbar>
 
@@ -39,10 +40,10 @@
 
     <ion-select
       placeholder="Todas"
-      [value]="selectedCategoryFilter"
+      [value]="selectedCategoryFilter()"
       (ionChange)="onCategoryFilterChanged($event.detail.value)">
 
-      <ion-select-option [value]="null">
+      <ion-select-option value="all">
         Todas
       </ion-select-option>
 

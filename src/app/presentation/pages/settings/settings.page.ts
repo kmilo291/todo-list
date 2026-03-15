@@ -3,6 +3,7 @@ import { ExecuteHeavyTask } from 'src/app/core/use-cases/execute-heavy-task.use-
 import { ToastService } from '../../services/toast.service';
 import { AlertController } from '@ionic/angular';
 import { SeedData } from 'src/app/core/use-cases/seed-data.use-case';
+import { TodoEventsService } from '../../services/todo-events.service';
 
 @Component({
   selector: 'app-settings',
@@ -18,7 +19,8 @@ export class SettingsPage implements OnInit {
   constructor(private executeHeavyTask: ExecuteHeavyTask,
     private toastSrv: ToastService,
     private alertCtrl: AlertController,
-    private seedData: SeedData
+    private seedData: SeedData,
+    private todoEvents: TodoEventsService
 )
   { }
 
@@ -80,6 +82,8 @@ export class SettingsPage implements OnInit {
     }
 
     this.toastSrv.success("Datos de ejemplo cargados");
+
+    this.todoEvents.notifyRefresh();
 
   }
 

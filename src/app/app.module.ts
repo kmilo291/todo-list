@@ -15,6 +15,7 @@ import { HeavyTaskPort } from './core/ports/heavy-task.port';
 import { WorkerHeavyTaskAdapter } from './infrastructure/background/worker-heavy-task.adapter';
 import { IdGeneratorPort } from './core/ports/id-generator.port';
 import { DateIdGeneratorService } from './infrastructure/services/date-id-generator.service';
+import { UuidIdGeneratorService } from './infrastructure/services/uuid-id-generator.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -25,7 +26,8 @@ import { DateIdGeneratorService } from './infrastructure/services/date-id-genera
 
     {provide: TodoRepository, useClass: LocalStorageTodoRepository},
     {provide: CategoryRepository, useClass: LocalStorageCategoryRepository},
-    {provide: IdGeneratorPort,useClass: DateIdGeneratorService},
+    // {provide: IdGeneratorPort,useClass: DateIdGeneratorService},
+    { provide: IdGeneratorPort, useClass: UuidIdGeneratorService },
 
     // proveedor para obtener la información desde JSON file - Todo
     // { provide: TodoRepository, useClass: JsonTodoRepository },
