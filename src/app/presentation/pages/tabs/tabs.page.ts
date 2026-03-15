@@ -4,19 +4,24 @@ import { RemoteConfigService } from 'src/app/infrastructure/services/remote-conf
 @Component({
   selector: 'app-tabs',
   templateUrl: './tabs.page.html',
-  styleUrls: ['./tabs.page.scss'],
   standalone: false
 })
 export class TabsPage implements OnInit {
 
   showSettings = false;
 
-  constructor(private remoteConfig: RemoteConfigService) { }
+  constructor(private remoteConfig: RemoteConfigService) {}
 
-  async ngOnInit() {
+  ngOnInit() {
 
-  this.showSettings =
-  await this.remoteConfig.getBoolean('enable_config_settings');
+    this.remoteConfig
+      .watchBoolean('enable_config_settings')
+      .subscribe(value => {
+
+        this.showSettings = value;
+
+      });
+
   }
 
 }

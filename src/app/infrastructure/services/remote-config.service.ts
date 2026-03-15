@@ -1,11 +1,6 @@
 import { Injectable } from '@angular/core';
-import {
-  getRemoteConfig,
-  fetchAndActivate,
-  getValue,
-  isSupported
-} from "firebase/remote-config";
-
+import { timer, switchMap, from, shareReplay } from 'rxjs';
+import { getRemoteConfig, fetchAndActivate, getValue, isSupported } from "firebase/remote-config";
 import { firebaseApp } from '../firebase/firebase.config';
 
 @Injectable({
@@ -14,11 +9,8 @@ import { firebaseApp } from '../firebase/firebase.config';
 export class RemoteConfigService {
 
   private remoteConfig: any;
-  private ready: Promise<void>;
 
-  constructor() {
-    this.ready = this.init();
-  }
+  constructor() {}
 
   private async init(): Promise<void> {
 
@@ -40,9 +32,25 @@ export class RemoteConfigService {
 
   }
 
-  async getBoolean(key: string): Promise<boolean> {
+  watchBoolean(key: string) {
 
-    await this.ready;
+    return timer(0, 20000).pipe(
+
+      switchMap(() => from(this.fetchValue(key))),
+
+      shareReplay(1)
+
+    );
+
+  }
+
+  private async fetchValue(key: string): Promise<boolean> {
+
+    if (!this.remoteConfig) {
+      await this.init();
+    }
+
+    await fetchAndActivate(this.remoteConfig);
 
     return getValue(this.remoteConfig, key).asBoolean();
 
