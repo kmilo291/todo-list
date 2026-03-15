@@ -1,4 +1,4 @@
 export interface CreateTodoDto {
   title: string;
-  categoryId?: number;
+  categoryId: number;
 }

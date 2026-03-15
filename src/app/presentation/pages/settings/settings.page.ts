@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ExecuteHeavyTask } from 'src/app/core/use-cases/execute-heavy-task.use-case';
 import { ToastService } from '../../services/toast.service';
+import { AlertController } from '@ionic/angular';
+import { SeedData } from 'src/app/core/use-cases/seed-data.use-case';
 
 @Component({
   selector: 'app-settings',
@@ -13,7 +15,11 @@ export class SettingsPage implements OnInit {
   progress = 0;
   running = false;
 
-  constructor(private executeHeavyTask: ExecuteHeavyTask, private toastSrv: ToastService)
+  constructor(private executeHeavyTask: ExecuteHeavyTask,
+    private toastSrv: ToastService,
+    private alertCtrl: AlertController,
+    private seedData: SeedData
+)
   { }
 
   ngOnInit() {
@@ -35,6 +41,46 @@ export class SettingsPage implements OnInit {
 
     console.log('Resultado:', result);
     this.toastSrv.success('Cálculo terminado');
+  }
+
+  async purgeStorage() {
+
+    const alert = await this.alertCtrl.create({
+      header: 'Confirmar',
+      message: '¿Deseas eliminar todos los datos almacenados?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel'
+        },
+        {
+          text: 'Eliminar',
+          role: 'destructive',
+          handler: () => {
+
+            localStorage.clear();
+
+            this.toastSrv.success('Datos eliminados');
+
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  async seedDataExample() {
+
+    const result = await this.seedData.execute();
+
+    if (!result.success) {
+      this.toastSrv.warning(result.error ?? "Error");
+      return;
+    }
+
+    this.toastSrv.success("Datos de ejemplo cargados");
+
   }
 
 }

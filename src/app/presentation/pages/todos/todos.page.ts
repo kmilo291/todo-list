@@ -30,13 +30,13 @@ export class TodosPage {
     const todos = this.todos();
     const search = this.searchTerm();
     const status = this.currentStatus();
-    const category = this.selectedCategoryFilter;
+    const category = this.selectedCategoryFilter();
 
     return this.todoFilterSrv.apply({
       todos,
       search,
       status,
-      categoryId: category()
+      categoryId: category
     });
 
   });
@@ -70,7 +70,7 @@ export class TodosPage {
 
   async addTodo() {
 
-    const result = await this.todosFacade.create("Nuevo todo", this.selectedCategoryFilter() ?? undefined);
+    const result = await this.todosFacade.create("Nuevo todo", this.selectedCategoryFilter()!);
 
     if (!result.success) {
       console.error(result.error);

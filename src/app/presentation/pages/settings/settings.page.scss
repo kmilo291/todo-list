@@ -1,0 +1,54 @@
+.about-card {
+  margin: 20px;
+  text-align: center;
+}
+
+.about {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+
+  &__avatar {
+    width: 120px;
+    height: 120px;
+    margin-bottom: 10px;
+  }
+
+  &__role {
+    color: #7f8c8d;
+    font-size: 14px;
+  }
+
+  &__description {
+    font-size: 13px;
+    color: #95a5a6;
+    max-width: 260px;
+  }
+}
+
+.worker-progress {
+
+  margin-top: 20px;
+
+  &__info {
+    margin-top: 10px;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    font-size: 14px;
+    color: #7f8c8d;
+  }
+}
+
+.btn-worker{
+  padding-left: 5%;
+  padding-right: 5%;
+  padding-top: 15px;
+}
+
+.storage-card {
+  margin-top: 20px;
+}

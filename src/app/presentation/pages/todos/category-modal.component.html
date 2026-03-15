@@ -32,7 +32,7 @@
     </ion-item>
   </ion-list>
   <ion-footer>
-    <ion-button expand="block" (click)="confirm()"
+    <ion-button class="btn_general" expand="block" (click)="confirm()"
                 [disabled]="!title || !title.trim() || !selectedId">
       {{ isNew ? 'Crear Tarea' : 'Confirmar' }}
     </ion-button>

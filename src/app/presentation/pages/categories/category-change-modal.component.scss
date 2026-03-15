@@ -8,6 +8,8 @@ ion-select-option span {
 }
 
 .color-palette {
+  padding-left: 2%;
+  padding-right: 2%;
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
@@ -15,7 +17,7 @@ ion-select-option span {
   margin-bottom: 15px;
   width: 100%;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content:flex-start;
 }
 
 .color-circle {

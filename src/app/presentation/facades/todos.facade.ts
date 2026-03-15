@@ -31,7 +31,7 @@ export class TodosFacade {
     return this.getCategories.execute();
   }
 
-  async create(title: string, categoryId?: number): Promise<Result<void>> {
+  async create(title: string, categoryId: number): Promise<Result<void>> {
     return this.createTodo.execute({ title, categoryId });
   }
 

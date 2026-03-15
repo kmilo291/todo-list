@@ -12,17 +12,22 @@
 
 <ion-content class="todos">
 
-  <ion-segment value="all" (ionChange)="onSegmentChanged($event)">
-    <ion-segment-button value="all">
-      <ion-label>Todos</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="completed">
-      <ion-label>Completados</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="pending">
-      <ion-label>Pendientes</ion-label>
-    </ion-segment-button>
-  </ion-segment>
+  <div class="todos__segment">
+    <ion-segment value="all" (ionChange)="onSegmentChanged($event)" class="segment">
+      <ion-segment-button value="all">
+        <ion-icon name="list-outline" color="primary"></ion-icon>
+      </ion-segment-button>
+
+      <ion-segment-button value="completed">
+        <ion-icon name="checkmark-circle-outline" color="success"></ion-icon>
+      </ion-segment-button>
+
+      <ion-segment-button value="pending">
+        <ion-icon name="time-outline" color="warning"></ion-icon>
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+
 
   <ion-searchbar
     [ngModel]="searchTerm()"

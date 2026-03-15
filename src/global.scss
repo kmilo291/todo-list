@@ -41,3 +41,34 @@
     width: 90%;
     max-width: 90%;
   }
+
+.todos {
+
+  &__segment {
+
+    padding-left: 5%;
+    padding-right: 5%;
+
+    ion-segment {
+      margin: 15px 0;
+      border-radius: 10px;
+    }
+
+  }
+}
+
+.btn_general{
+  padding-top: 5%;
+  padding-left: 5%;
+  padding-right: 5%;
+
+
+}
+
+.btn_general::part(native){
+  height: 35px;
+  min-height: 35px;
+}
+
+
+

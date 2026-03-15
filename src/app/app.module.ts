@@ -18,7 +18,7 @@ import { DateIdGeneratorService } from './infrastructure/services/date-id-genera
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [BrowserModule, IonicModule.forRoot(),
+  imports: [BrowserModule, IonicModule.forRoot({mode: 'ios'}),
             AppRoutingModule,HttpClientModule],
   providers: [
     {provide: RouteReuseStrategy, useClass: IonicRouteStrategy },

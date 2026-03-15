@@ -6,20 +6,123 @@
 
 <ion-content>
 
-  <ion-button size="small" (click)="startHeavyTask()" [disabled]="running">
-    Run Worker
+  <ion-button
+    class="btn-worker"
+    color="secondary"
+    expand="block"
+    (click)="startHeavyTask()"
+    [disabled]="running">
+
+      <ion-icon name="flash-outline" slot="start"></ion-icon>
+
+      {{ running ? 'Procesando...' : 'Probar Worker (Cálculo pesado)' }}
+
   </ion-button>
 
-  <div *ngIf="running" style="padding:16px">
+  <ion-card *ngIf="running" class="worker-progress">
 
-    <ion-progress-bar
-      [value]="progress">
-    </ion-progress-bar>
+    <ion-card-header>
+      <ion-card-title>Worker ejecutándose</ion-card-title>
+    </ion-card-header>
 
-    <p>
-      {{ (progress * 100) | number:'1.0-0' }} %
-    </p>
+    <ion-card-content>
 
-  </div>
+      <ion-progress-bar [value]="progress"></ion-progress-bar>
+
+        <div class="worker-progress__info">
+
+          <ion-spinner name="dots"></ion-spinner>
+
+          <span>
+            {{ (progress * 100) | number:'1.0-0' }} %
+          </span>
+
+        </div>
+
+    </ion-card-content>
+
+  </ion-card>
+
+  <ion-card class="about-card">
+
+  <ion-card-header>
+    <ion-card-title>About the Developer</ion-card-title>
+  </ion-card-header>
+
+  <ion-card-content>
+
+    <div class="about">
+
+      <ion-avatar class="about__avatar">
+        <img src="assets/profile.png" />
+      </ion-avatar>
+
+      <h2>Camilo Ramirez</h2>
+
+      <p class="about__role">
+        Software Developer
+      </p>
+
+      <p class="about__description">
+        Developer focused on Clean Architecture, Angular, Ionic and modern web technologies.
+      </p>
+
+      <ion-list lines="none">
+
+        <ion-item>
+          <ion-icon name="logo-github" slot="start"></ion-icon>
+          <ion-label>
+            github.com/kmilo291
+          </ion-label>
+        </ion-item>
+
+        <ion-item>
+          <ion-icon name="mail-outline" slot="start"></ion-icon>
+          <ion-label>
+            kmilo291@gmail.com
+          </ion-label>
+        </ion-item>
+
+      </ion-list>
+
+    </div>
+
+  </ion-card-content>
+
+</ion-card>
+
+<ion-card class="storage-card">
+
+  <ion-card-header>
+    <ion-card-title>Storage</ion-card-title>
+  </ion-card-header>
+
+  <ion-card-content>
+
+    <ion-button
+      expand="block"
+      color="danger"
+      (click)="purgeStorage()">
+
+      <ion-icon name="trash-outline" slot="start"></ion-icon>
+
+      Limpiar almacenamiento
+
+    </ion-button>
+
+    <ion-button
+      expand="block"
+      color="success"
+      (click)="seedDataExample()">
+
+      <ion-icon name="leaf-outline" slot="start"></ion-icon>
+
+      Cargar datos de ejemplo
+
+    </ion-button>
+
+  </ion-card-content>
+
+</ion-card>
 
 </ion-content>
