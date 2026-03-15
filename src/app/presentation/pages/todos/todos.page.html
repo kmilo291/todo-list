@@ -12,24 +12,27 @@
 
 <ion-content class="todos">
 
-<ion-segment value="all" (ionChange)="onSegmentChanged($event)">
-  <ion-segment-button value="all">
-    <ion-label>Todos</ion-label>
-  </ion-segment-button>
-  <ion-segment-button value="completed">
-     <ion-label>Completados</ion-label>
-  </ion-segment-button>
-  <ion-segment-button value="pending">
-    <ion-label>Pendientes</ion-label>
-  </ion-segment-button>
-</ion-segment>
+  <ion-segment value="all" (ionChange)="onSegmentChanged($event)">
+    <ion-segment-button value="all">
+      <ion-label>Todos</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="completed">
+      <ion-label>Completados</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="pending">
+      <ion-label>Pendientes</ion-label>
+    </ion-segment-button>
+  </ion-segment>
 
-  <ion-searchbar [(ngModel)]="searchTerm" placeholder="Buscar categoría" (ionInput)="filterTodos()"></ion-searchbar>
+  <ion-searchbar
+    [ngModel]="searchTerm()"
+    (ngModelChange)="searchTerm.set($event)">
+  </ion-searchbar>
 
   <ion-list>
 
     <ion-item
-      *ngFor="let todo of filteredTodos"
+      *ngFor="let todo of filteredTodos()"
       class="todos__item"
       (click)="openCategoryModal(todo)"
       button>

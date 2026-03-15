@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { ToastService } from '../../services/toast.service';
 import { TodoWithCategory } from 'src/app/core/models/projections/todo-with-category.model';
 import { GetTodosWithCategory } from 'src/app/core/use-cases/get-todos-with-category.use-case';
@@ -10,6 +10,8 @@ import { UpdateTodo } from 'src/app/core/use-cases/update-todo.use-case';
 import { ModalController, SegmentCustomEvent } from '@ionic/angular';
 import { CategoryModalComponent } from './category-modal.component';
 import { CreateCategory } from 'src/app/core/use-cases/create-category.use-case';
+import { TodoFilterService } from '../../services/todo-filter.service';
+import { TodosFacade } from '../../facades/todos.facade';
 
 type TodoFilter = 'all' | 'completed' | 'pending';
 
@@ -20,53 +22,50 @@ type TodoFilter = 'all' | 'completed' | 'pending';
 })
 export class TodosPage {
 
-  todos: TodoWithCategory [] = [];
-  categories: Category    [] = [];
+  categories: Category [] = [];
   selectedCategoryId!: number;
-  searchTerm: string = '';
   selectedCategoryFilter: number | null = null;
-  filteredTodos: TodoWithCategory[] = [];
+  todos = signal<TodoWithCategory[]>([]);
+  searchTerm = signal('');
+  currentStatus = signal<TodoFilter>('all');
+  filteredTodos = computed(() => {
+
+    const todos = this.todos();
+    const search = this.searchTerm();
+    const status = this.currentStatus();
+
+    return this.todoFilterSrv.apply({
+      todos,
+      search,
+      status
+    });
+  });
+
 
   constructor(
-    private getTodosWithCategory: GetTodosWithCategory,
-    private createTodo: CreateTodo,
-    private deleteTodo: DeleteTodo,
-    private updateTodo: UpdateTodo,
-    private getCategories: GetCategories,
+    private todosFacade: TodosFacade,
     private createCategory: CreateCategory,
     private toastSrv: ToastService,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private todoFilterSrv: TodoFilterService
   ) {}
 
   async ionViewWillEnter() {
     await this.loadTodos();
     await this.loadCategories();
-    this.filterTodos();
   }
 
    async loadCategories() {
-    this.categories = await this.getCategories.execute();
-    this.filterTodos();
+    this.categories = await this.todosFacade.getCategoriesList();
   }
 
   async loadTodos() {
-    this.todos = await this.getTodosWithCategory.execute();
-    this.filterTodos();
+    this.todos.set(await this.todosFacade.getTodos());
   }
 
   async addTodo() {
 
-    // if (this.selectedCategoryId == null) {
-    //   this.toastSrv.warning("Debes seleccionar una categoría");
-    //   console.error('Debes seleccionar categoría');
-    //   return;
-    // }
-
-    const result = await this.createTodo.execute({
-      title: 'Nuevo Todo',
-      categoryId: this.selectedCategoryId,
-      completed: false
-    });
+    const result = await this.todosFacade.create("Nuevo todo", this.selectedCategoryFilter ?? undefined);
 
     if (!result.success) {
       console.error(result.error);
@@ -79,7 +78,7 @@ export class TodosPage {
 
 
   async delete(idTodo: number){
-    const result = await this.deleteTodo.execute({ id: idTodo });
+    const result = await this.todosFacade.delete(idTodo);
 
     if (!result.success) {
       console.error(result.error);
@@ -97,7 +96,7 @@ export class TodosPage {
       categoryId
     };
 
-    const result = await this.updateTodo.execute(updatedTodo);
+    const result = await this.todosFacade.update(updatedTodo);
 
     if (!result.success) {
       console.error(result.error);
@@ -132,7 +131,7 @@ export class TodosPage {
         completed: data.completed,
         title: data.title
       };
-      const result = await this.updateTodo.execute(updatedTodo);
+      const result = await this.todosFacade.update(updatedTodo);
       if (!result.success) {
         this.toastSrv.error(result.error ?? "Error general");
         return;
@@ -154,11 +153,7 @@ export class TodosPage {
     await modal.present();
     const { data } = await modal.onWillDismiss();
     if (data && data.title && data.categoryId) {
-      const result = await this.createTodo.execute({
-        title: data.title,
-        categoryId: data.categoryId,
-        completed: data.completed
-      });
+      const result = await this.todosFacade.create(data.title, data.categoryId);
       if (!result.success) {
         this.toastSrv.error(result.error ?? "Error general");
         return;
@@ -176,7 +171,7 @@ export class TodosPage {
       ...todo,
       title: newTitle
     };
-    const result = await this.updateTodo.execute(updatedTodo);
+    const result = await this.todosFacade.update(updatedTodo);
     if (!result.success) {
       this.toastSrv.error(result.error ?? "Error general");
       return;
@@ -189,7 +184,7 @@ export class TodosPage {
       ...todo,
       completed
     };
-    const result = await this.updateTodo.execute(updatedTodo);
+    const result = await this.todosFacade.update(updatedTodo);
     if (!result.success) {
       this.toastSrv.error(result.error ?? "Error general");
       return;
@@ -197,28 +192,8 @@ export class TodosPage {
     await this.loadTodos();
   }
 
-  filterTodos() {
-    const term = this.searchTerm.toLowerCase();
-    this.filteredTodos = this.todos.filter(todo => {
-      const matchesName = todo.title.toLowerCase().includes(term);
-      const matchesCategory = todo.category?.name.toLowerCase().includes(term);
-      return matchesName || matchesCategory;
-    });
-  }
-
   onSegmentChanged(event: SegmentCustomEvent) {
-
-     const status = event.detail.value as TodoFilter;
-
-    if(status === 'all') {
-      this.filteredTodos = this.todos;
-      return;
-    }
-
-    this.filteredTodos = this.todos.filter(todo => {
-      const matchesStatus = status === 'completed' ? todo.completed : !todo.completed;
-      return matchesStatus;
-    });
+    this.currentStatus.set(event.detail.value as TodoFilter);
   }
 
 }

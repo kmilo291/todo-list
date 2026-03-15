@@ -4,27 +4,28 @@ import { Todo } from '../models/shared/todo.model';
 import { CreateTodoDto } from '../models/dtos/create-todo.dto';
 import { Result } from '../models/shared/result.model';
 import { CategoryRepository } from '../ports/category.repository';
+import { IdGeneratorPort } from '../ports/id-generator.port';
 
 
 @Injectable({ providedIn: 'root' })
 export class CreateTodo {
 
-  constructor(private TodoRepo: TodoRepository, private categoryRepo: CategoryRepository) {}
+  constructor(private TodoRepo: TodoRepository,
+    private categoryRepo: CategoryRepository,
+    private idGenerator: IdGeneratorPort
+  ) {}
 
-async execute(data: CreateTodoDto): Promise<Result<void>> {
+  async execute(data: CreateTodoDto): Promise<Result<void>> {
 
-  if (!data.title.trim()) {
-    return {
-      success: false,
-      error: 'El título no puede estar vacío'
-    };
-  }
-
-  try {
+    if (!data.title.trim()) {
+      return {
+        success: false,
+        error: 'El título no puede estar vacío'
+      };
+    }
 
     let categoryId = data.categoryId;
 
-    //Si no viene categoría, seleccionar una al azar
     if (!categoryId) {
       const categories = await this.categoryRepo.getAll();
 
@@ -40,21 +41,14 @@ async execute(data: CreateTodoDto): Promise<Result<void>> {
     }
 
     const todo: Todo = {
-      id: Date.now(),
-      completed: false,
+      id: this.idGenerator.generate(),
       title: data.title,
+      completed: false,
       categoryId
     };
 
     await this.TodoRepo.save(todo);
 
     return { success: true };
-
-  } catch {
-    return {
-      success: false,
-      error: 'No se pudo guardar el Todo'
-    };
   }
-}
 }

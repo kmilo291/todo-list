@@ -19,6 +19,7 @@
   <ion-list>
 
     <ion-item
+     (click)="openUpdateCategoryModal(category)"
       *ngFor="let category of filteredCategories"
       class="categories__item">
       <ion-icon

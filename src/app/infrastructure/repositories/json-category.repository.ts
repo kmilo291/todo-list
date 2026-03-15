@@ -22,4 +22,8 @@ export class JsonCategoryRepository implements CategoryRepository {
   async delete(): Promise<void> {
     throw new Error('Solo lectura');
   }
+
+  async update(): Promise<void> {
+    throw new Error('Solo lectura');
+  }
 }

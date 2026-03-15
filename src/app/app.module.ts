@@ -13,6 +13,8 @@ import { JsonTodoRepository } from './infrastructure/repositories/json-todo.repo
 import { JsonCategoryRepository } from './infrastructure/repositories/json-category.repository';
 import { HeavyTaskPort } from './core/ports/heavy-task.port';
 import { WorkerHeavyTaskAdapter } from './infrastructure/background/worker-heavy-task.adapter';
+import { IdGeneratorPort } from './core/ports/id-generator.port';
+import { DateIdGeneratorService } from './infrastructure/services/date-id-generator.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -23,6 +25,7 @@ import { WorkerHeavyTaskAdapter } from './infrastructure/background/worker-heavy
 
     {provide: TodoRepository, useClass: LocalStorageTodoRepository},
     {provide: CategoryRepository, useClass: LocalStorageCategoryRepository},
+    {provide: IdGeneratorPort,useClass: DateIdGeneratorService},
 
     // proveedor para obtener la información desde JSON file - Todo
     // { provide: TodoRepository, useClass: JsonTodoRepository },

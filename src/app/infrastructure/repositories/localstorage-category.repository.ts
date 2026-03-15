@@ -1,28 +1,15 @@
 import { Injectable } from '@angular/core';
 import { CategoryRepository } from 'src/app/core/ports/category.repository';
 import { Category } from 'src/app/core/models/shared/category.model';
+import { BaseLocalStorageRepository } from './base-localstorage.repository';
 
 @Injectable()
-export class LocalStorageCategoryRepository implements CategoryRepository {
+export class LocalStorageCategoryRepository
+  extends BaseLocalStorageRepository<Category>
+  implements CategoryRepository {
 
-  private storageKey = 'categories';
-
-  async getAll(): Promise<Category[]> {
-    const data = localStorage.getItem(this.storageKey);
-    return data ? JSON.parse(data) : [];
+  constructor() {
+    super('categories');
   }
 
-  async save(category: Category): Promise<void> {
-    const categories = await this.getAll();
-    localStorage.setItem(
-      this.storageKey,
-      JSON.stringify([...categories, category])
-    );
-  }
-
-  async delete(id: number): Promise<void> {
-    const categories = await this.getAll();
-    const filtered = categories.filter(c => c.id !== id);
-    localStorage.setItem(this.storageKey, JSON.stringify(filtered));
-  }
 }

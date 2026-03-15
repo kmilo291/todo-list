@@ -1,6 +1,7 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Nueva Categoría</ion-title>
+    <ion-title *ngIf="!isNew">Editar Categoria</ion-title>
+    <ion-title *ngIf="isNew">Nueva Categoria</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="close()">
         <ion-icon name="close"></ion-icon>

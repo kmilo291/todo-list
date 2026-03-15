@@ -1,4 +1,4 @@
-export interface Todo {
+export interface UpdateTodoDto {
   id: number;
   title: string;
   completed: boolean;

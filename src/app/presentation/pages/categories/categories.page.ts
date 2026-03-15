@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
 import { DeleteCategory } from 'src/app/core/use-cases/delete-category.use-case';
 import { ToastService } from '../../services/toast.service';
 import { ModalController } from '@ionic/angular';
-import { CategoryCreateModalComponent } from './category-create-modal.component';
+import { CategoryChangeModalComponent } from './category-change-modal.component';
 
 
 
@@ -47,7 +47,11 @@ export class CategoriesPage {
 
   async addCategory() {
     const modal = await this.modalCtrl.create({
-      component: CategoryCreateModalComponent
+      component: CategoryChangeModalComponent,
+      componentProps: {
+          categories: this.categories,
+          isNew: true
+        }
     });
     await modal.present();
     const { data } = await modal.onWillDismiss();
@@ -57,7 +61,7 @@ export class CategoriesPage {
     }
   }
 
-    async delete(idCategory: number){
+  async delete(idCategory: number){
     const result = await this.deleteCategory.execute({ id: idCategory });
 
     if (!result.success) {
@@ -68,4 +72,37 @@ export class CategoriesPage {
 
     await this.loadCategories();
   }
+
+    async openUpdateCategoryModal(category: Category) {
+      const modal = await this.modalCtrl.create({
+        component: CategoryChangeModalComponent,
+        componentProps: {
+          categories: this.categories,
+          selectedCategoryId: category.id,
+          categoryTitle: category.name,
+          categoryColor: category.color,
+          isNew: false
+        }
+      });
+      await modal.present();
+      const { data } = await modal.onWillDismiss();
+      // if (data && (
+      //   data.categoryId !== todo.categoryId ||
+      //   data.completed !== todo.completed ||
+      //   data.title !== todo.title
+      // )) {
+      //   const updatedTodo = {
+      //     ...todo,
+      //     categoryId: data.categoryId,
+      //     completed: data.completed,
+      //     title: data.title
+      //   };
+      //   const result = await this.todosFacade.update(updatedTodo);
+      //   if (!result.success) {
+      //     this.toastSrv.error(result.error ?? "Error general");
+      //     return;
+      //   }
+      //   await this.loadTodos();
+      // }
+    }
 }
