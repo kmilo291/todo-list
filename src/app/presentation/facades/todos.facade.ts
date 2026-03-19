@@ -9,6 +9,7 @@ import { TodoWithCategory } from 'src/app/core/models/projections/todo-with-cate
 import { Category } from 'src/app/core/models/shared/category.model';
 import { Result } from 'src/app/core/models/shared/result.model';
 import { Todo } from 'src/app/core/models/shared/todo.model';
+import { from, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -23,8 +24,8 @@ export class TodosFacade {
     private getCategories: GetCategories
   ) {}
 
-  async getTodos(): Promise<TodoWithCategory[]> {
-    return this.getTodosWithCategory.execute();
+  getTodos$(): Observable<TodoWithCategory[]> {
+    return from(this.getTodosWithCategory.execute());
   }
 
   async getCategoriesList(): Promise<Category[]> {

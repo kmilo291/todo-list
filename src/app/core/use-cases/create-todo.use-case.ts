@@ -3,7 +3,6 @@ import { TodoRepository } from '../ports/todo.repository';
 import { Todo } from '../models/shared/todo.model';
 import { CreateTodoDto } from '../models/dtos/create-todo.dto';
 import { Result } from '../models/shared/result.model';
-import { CategoryRepository } from '../ports/category.repository';
 import { IdGeneratorPort } from '../ports/id-generator.port';
 
 
@@ -11,7 +10,6 @@ import { IdGeneratorPort } from '../ports/id-generator.port';
 export class CreateTodo {
 
   constructor(private todoRepo: TodoRepository,
-    private categoryRepo: CategoryRepository,
     private idGenerator: IdGeneratorPort
   ) {}
 

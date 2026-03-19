@@ -9,8 +9,8 @@
   </ion-toolbar>
 </ion-header>
 
-
 <ion-content class="todos">
+
 
   <div class="todos__segment">
     <ion-segment value="all" (ionChange)="onSegmentChanged($event)" class="segment">
@@ -35,6 +35,7 @@
     (ngModelChange)="searchTerm.set($event)">
   </ion-searchbar>
 
+
   <ion-item>
     <ion-label>Categoría</ion-label>
 
@@ -56,71 +57,65 @@
       </ion-select-option>
 
     </ion-select>
+  </ion-item>
 
-</ion-item>
 
-  <div
-    class="todos__empty"
-    *ngIf="filteredTodos().length === 0">
+  <ng-container *ngIf="filteredTodos$ | async as todos">
 
-    <ion-card>
 
-      <ion-card-content>
+    <div class="todos__empty" *ngIf="todos.length === 0">
+      <ion-card>
+        <ion-card-content>
+          <ion-icon name="file-tray-outline" size="large"></ion-icon>
+          <h2>No hay tareas</h2>
+          <p>Esta categoría no tiene tareas asignadas.</p>
+        </ion-card-content>
+      </ion-card>
+    </div>
 
-        <ion-icon name="file-tray-outline" size="large"></ion-icon>
 
-        <h2>No hay tareas</h2>
+    <ion-list *ngIf="todos.length > 0">
 
-        <p>
-          Esta categoría no tiene tareas asignadas.
-        </p>
+      <ion-item
+        *ngFor="let todo of todos"
+        class="todos__item"
+        (click)="openCategoryModal(todo)"
+        button>
 
-      </ion-card-content>
+        <ion-label class="todos__content">
+          <div>
+            <h2 class="todos__title">
+              {{ todo.title }}
+            </h2>
 
-    </ion-card>
+            <p *ngIf="todo.category"
+               class="todos__category"
+               [style.color]="todo.category.color">
+              Categoría: {{ todo.category.name }}
+            </p>
 
-  </div>
+            <p
+              class="todos__status"
+              [ngClass]="{
+                'todos__status--completed': todo.completed,
+                'todos__status--pending': !todo.completed
+              }"
+              [style.color]="todo.completed ? '#27ae60' : '#e67e22'">
+              {{ todo.completed ? 'Completado' : 'Pendiente' }}
+            </p>
+          </div>
+        </ion-label>
 
-  <ion-list *ngIf="filteredTodos().length > 0">
-
-    <ion-item
-      *ngFor="let todo of filteredTodos()"
-      class="todos__item"
-      (click)="openCategoryModal(todo)"
-      button>
-
-      <ion-label class="todos__content" >
-        <div>
-          <h2 class="todos__title">
-            {{ todo.title }}
-          </h2>
-
-          <p *ngIf="todo.category" class="todos__category" [style.color]="todo.category.color">
-            Categoría: {{ todo.category.name }}
-          </p>
-
-          <p
-            class="todos__status"
-            [ngClass]="{
-              'todos__status--completed': todo.completed,
-              'todos__status--pending': !todo.completed
-            }"
-            [style.color]="todo.completed ? '#27ae60' : '#e67e22'">
-            {{ todo.completed ? 'Completado' : 'Pendiente' }}
-          </p>
+        <div class="todos__actions" (click)="$event.stopPropagation()">
+          <ion-button fill="clear" (click)="delete(todo)">
+            <ion-icon name="trash" color="danger"></ion-icon>
+          </ion-button>
         </div>
-      </ion-label>
 
-      <div class="todos__actions" (click)="$event.stopPropagation()">
-        <ion-button
-          fill="clear"
-          (click)="delete(todo)">
-          <ion-icon name="trash" color="danger"></ion-icon>
-        </ion-button>
-      </div>
+      </ion-item>
 
-    </ion-item>
+    </ion-list>
 
-  </ion-list>
+  </ng-container>
 
 </ion-content>
