@@ -16,6 +16,8 @@ import { WorkerHeavyTaskAdapter } from './infrastructure/background/worker-heavy
 import { IdGeneratorPort } from './core/ports/id-generator.port';
 import { DateIdGeneratorService } from './infrastructure/services/date-id-generator.service';
 import { UuidIdGeneratorService } from './infrastructure/services/uuid-id-generator.service';
+import { HttpCategoryRepository } from './infrastructure/repositories/http-category.repository';
+import { HttpTodoRepository } from './infrastructure/repositories/http-todo.repository';
 
 @NgModule({
   declarations: [AppComponent],
@@ -24,8 +26,8 @@ import { UuidIdGeneratorService } from './infrastructure/services/uuid-id-genera
   providers: [
     {provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
 
-    {provide: TodoRepository, useClass: LocalStorageTodoRepository},
-    {provide: CategoryRepository, useClass: LocalStorageCategoryRepository},
+    // {provide: TodoRepository, useClass: LocalStorageTodoRepository},
+    // {provide: CategoryRepository, useClass: LocalStorageCategoryRepository},
     // {provide: IdGeneratorPort,useClass: DateIdGeneratorService},
     { provide: IdGeneratorPort, useClass: UuidIdGeneratorService },
 
@@ -37,6 +39,9 @@ import { UuidIdGeneratorService } from './infrastructure/services/uuid-id-genera
 
     // Proveedor para usar worker con tareas pesadas
     { provide: HeavyTaskPort, useClass: WorkerHeavyTaskAdapter },
+
+    { provide: CategoryRepository, useClass: HttpCategoryRepository },
+    { provide: TodoRepository, useClass: HttpTodoRepository }
   ],
 
   bootstrap: [AppComponent],

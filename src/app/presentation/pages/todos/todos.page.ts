@@ -14,7 +14,7 @@ import { CategoryModalComponent } from './category-modal.component';
 import { CreateCategory } from 'src/app/core/use-cases/create-category.use-case';
 
 import { toObservable } from '@angular/core/rxjs-interop';
-import { combineLatest, map, startWith, switchMap, Subject, from, EMPTY } from 'rxjs';
+import { combineLatest, map, startWith, switchMap, Subject, from, EMPTY, merge } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
 
 type TodoFilter = 'all' | 'completed' | 'pending';
@@ -41,7 +41,10 @@ export class TodosPage {
   private updateTodoAction$ = new Subject<TodoWithCategory>();
 
   // REFRESH
-  refresh$ = this.todoEvents.refresh$;
+  refresh$ = merge(
+    this.todoEvents.refresh$,
+    this.todoEvents.tabChanged$
+  );
 
   //TODOS STREAM
   todos$ = this.refresh$.pipe(

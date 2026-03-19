@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RemoteConfigService } from 'src/app/infrastructure/services/remote-config.service';
+import { TodoEventsService } from '../../services/todo-events.service';
 
 @Component({
   selector: 'app-tabs',
@@ -10,7 +11,7 @@ export class TabsPage implements OnInit {
 
   showSettings = false;
 
-  constructor(private remoteConfig: RemoteConfigService) {}
+  constructor(private remoteConfig: RemoteConfigService, private todoEvents: TodoEventsService) {}
 
   ngOnInit() {
 
@@ -22,6 +23,14 @@ export class TabsPage implements OnInit {
 
       });
 
+  }
+
+  ionViewDidEnter() {
+  this.todoEvents.notifyTabChange();
+  }
+
+  ionViewWillLeave() {
+    this.todoEvents.cancelRequests();
   }
 
 }

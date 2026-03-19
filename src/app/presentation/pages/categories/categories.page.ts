@@ -4,8 +4,9 @@ import { ToastService } from '../../services/toast.service';
 import { ModalController, AlertController } from '@ionic/angular';
 import { CategoryChangeModalComponent } from './category-change-modal.component';
 import { CategoriesFacade } from '../../facades/categories.facade';
+import { TodoEventsService } from '../../services/todo-events.service';
 
-
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-categories',
@@ -18,16 +19,33 @@ export class CategoriesPage {
   searchTerm: string = '';
   filteredCategories: Category[] = [];
 
+  private destroy$ = new Subject<void>();
+
   constructor(
     private categoriesFacade: CategoriesFacade,
     private toastSrv: ToastService,
     private modalCtrl: ModalController,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    private events: TodoEventsService
   ) {}
 
   async ionViewWillEnter() {
-    this.categories = await this.categoriesFacade.getAll();
-    this.filteredCategories = this.categories;
+    console.log('Entering CategoriesPage, loading categories...');
+    await this.loadCategories();
+
+    this.events.tabChanged$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.loadCategories();
+      });
+  }
+
+  ionViewWillLeave() {
+    console.log('Leaving CategoriesPage, cancelling requests and cleaning up...');
+    this.events.cancelRequests();
+
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   async loadCategories() {
@@ -46,12 +64,15 @@ export class CategoriesPage {
     const modal = await this.modalCtrl.create({
       component: CategoryChangeModalComponent,
       componentProps: {
-          categories: this.categories,
-          isNew: true
-        }
+        categories: this.categories,
+        isNew: true
+      }
     });
+
     await modal.present();
+
     const { data } = await modal.onWillDismiss();
+
     if (data && data.name && data.color) {
       await this.categoriesFacade.create(data.name, data.color);
       await this.loadCategories();
@@ -66,10 +87,7 @@ export class CategoriesPage {
       header: 'Confirmar eliminación',
       message: `¿Deseas eliminar la categoría ${category?.name}?`,
       buttons: [
-        {
-          text: 'Cancelar',
-          role: 'cancel'
-        },
+        { text: 'Cancelar', role: 'cancel' },
         {
           text: 'Eliminar',
           role: 'destructive',
@@ -81,6 +99,7 @@ export class CategoriesPage {
               this.toastSrv.error(result.error ?? "Error general");
               return;
             }
+
             await this.loadCategories();
           }
         }
