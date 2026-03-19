@@ -26,22 +26,22 @@ import { HttpTodoRepository } from './infrastructure/repositories/http-todo.repo
   providers: [
     {provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
 
-    // {provide: TodoRepository, useClass: LocalStorageTodoRepository},
-    // {provide: CategoryRepository, useClass: LocalStorageCategoryRepository},
+    {provide: TodoRepository, useClass: LocalStorageTodoRepository},
+    {provide: CategoryRepository, useClass: LocalStorageCategoryRepository},
     // {provide: IdGeneratorPort,useClass: DateIdGeneratorService},
     { provide: IdGeneratorPort, useClass: UuidIdGeneratorService },
 
     // proveedor para obtener la información desde JSON file - Todo
     // { provide: TodoRepository, useClass: JsonTodoRepository },
-
     // proveedor para obtener la información desde JSON file - Categoria
     // { provide: CategoryRepository, useClass: JsonCategoryRepository },
 
     // Proveedor para usar worker con tareas pesadas
     { provide: HeavyTaskPort, useClass: WorkerHeavyTaskAdapter },
 
-    { provide: CategoryRepository, useClass: HttpCategoryRepository },
-    { provide: TodoRepository, useClass: HttpTodoRepository }
+    // Repositorios HTTP
+    // { provide: CategoryRepository, useClass: HttpCategoryRepository },
+    // { provide: TodoRepository, useClass: HttpTodoRepository }
   ],
 
   bootstrap: [AppComponent],
